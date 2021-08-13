@@ -1,0 +1,95 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@using FinalAmadis.Data
+
+<center>
+    <div class="col-8 card">
+        <div class="col-12 row">
+            <p>&nbsp;</p>
+        </div>
+        <div class="col-12 row">
+            <div class="col-6" style="border-right:groove">
+                <img src="/Shopping-rafiki.svg" width="400" />
+            </div>
+            <div class="col-6" style="border-left:thick">
+                <EditForm Model="@user" OnValidSubmit="@ValidateUser">
+                    <DataAnnotationsValidator />
+                    <div>
+                        <br /><br /><br /><br /><br />
+                    </div>
+                    <div>
+                        <h3 style="font-weight:bold; color:purple">Super Market Login</h3>
+                    </div>
+                    <div>
+                        <br />
+                    </div>
+                    <div class="col-12 row">
+                        <input class="form-control col-12" @bind="user.Email" placeholder="Direccion de correo" />
+                    </div>
+                    <br />
+                    <div class="col-12 row">
+                        <input type="password" class="form-control col-12" @bind="user.Passw" placeholder="Contraseña" />
+                    </div>
+                    <br />
+                    <div class="col-12 row">
+                        <span class="col-12"></span>
+                        <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
+                        <a href="/Signup" class="col-6">Registrarse</a>
+                    </div>
+                    <br />
+                    <div class="col-12 row" style="text-align:left; font-weight:bold">
+                        <span class="col-12" style="color:red">@LoginMesssage</span>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+        <div class="col-12 row">
+            <p>&nbsp;</p>
+        </div>
+    </div>
+</center>
+
+@code {
+    private Usuario user = new Usuario();
+
+    //Pruebas
+    List<Usuario> usuarios = new List<Usuario>();
+    string LoginMesssage;
+    protected override void OnInitialized()
+    {
+        usuarios.Add(new Usuario() { Email = "Kevinfeliz@gmail.com", Passw = "1234", Rol = "user" });
+        usuarios.Add(new Usuario() { Email = "huascarm@gmail.com", Passw = "12345", Rol = "admin" });
+    }
+
+    private void ValidateUser()
+    {
+        try
+        {
+            var query = from u in usuarios
+                        where u.Email == user.Email & u.Passw == user.Passw
+                        select u;
+            if (query.Count() == 1)
+            {
+                Usuario encontrado = query.First();
+                if (encontrado.Rol == "admin")
+                {
+                    NavigationManager.NavigateTo("/admin");
+                }
+                if (encontrado.Rol == "user")
+                {
+                    NavigationManager.NavigateTo("/index");
+                }
+            }
+            else
+            {
+                LoginMesssage = "Datos erroneos...";
+            }
+        }
+        catch (Exception)
+        {
+
+            LoginMesssage = "Some bobo en la avenida";
+        }
+
+    }
+}
