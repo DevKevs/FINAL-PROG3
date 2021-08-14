@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "AcX7d24Ceut/DqpsQYvpa6N1vRFueSWSsMQNwjkTr0+gOU2UBjzV4x8BBsVcHG0+GFxW6cpwOgUWicxJsnc1Ug==",
+  "dgSpecHash": "89nLn1oTjivgSMdtlZiNpFEDLEaGeupW4zlpUYFKvc/w/4H0I9fyGoLXMwYBnmTYiqPjhYKL+mfESMcDvji/9Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gt\\source\\repos\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Huascar\\Desktop\\FINAL-PROG3 - copia\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Huascar\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\Huascar\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\Huascar\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\Huascar\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.15\\microsoft.netcore.app.host.win-x64.3.1.15.nupkg.sha512"
+  ],
   "logs": []
 }

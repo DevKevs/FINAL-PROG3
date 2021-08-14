@@ -1,27 +1,40 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="admin">Admin Workspace</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+﻿
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Panel de admin</h3>
+            </div>
+            <div class="container">
+                <ul class="list-unstyled components">
+                    <p>Mercado</p>
+                    <li>
+                        <a href="/admin">Home</a>
+                    </li>
+                    <li>
+                        <a href="/Productos">Productos</a>
+                    </li>
+                    <li>
+                        <a href="/admin">Categorías</a>
+                    </li>
+                    <li>
+                        <a href="/admin">Pedidos</a>
+                    </li>
+                    <li>
+                        <a href="/admin">Clientes</a>
+                    </li>
+                </ul>
+            </div>
+            
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="admin" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Admin Home
-            </NavLink>
-        </li>
-    </ul>
-</div>
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="/" class="download">Cerrar sesión</a>
+                </li>
+               
+            </ul>
+        </nav>
 
-@code {
-    private bool collapseNavMenu = true;
+        
+ 
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}

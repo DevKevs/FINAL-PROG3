@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Shared\SurveyPrompt.razor" />
+  </ItemGroup>
+
 </Project>
