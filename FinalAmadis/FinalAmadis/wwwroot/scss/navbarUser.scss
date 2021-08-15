@@ -71,7 +71,7 @@ h1, h2, h3, h4, h5,
 	box-shadow: 0px 5px 20px -17px rgba(0,0,0,0.34);
 
 	@include media-breakpoint-down(md) {
-		background: $new-font-color!important;
+		background: $new-font-color !important;
 		position: relative;
 		top: 0;
 		padding: 10px 15px;
@@ -81,18 +81,21 @@ h1, h2, h3, h4, h5,
 		color: $new-font-color;
 		text-transform: uppercase;
 		font-weight: 700;
-		&:hover, &:focus{
+
+		&:hover, &:focus {
 			color: $new-font-color;
 		}
-		@include media-breakpoint-down(md){
+
+		@include media-breakpoint-down(md) {
 			color: $white;
 		}
 	}
 
 	.navbar-nav {
-		@include media-breakpoint-down(md){
+		@include media-breakpoint-down(md) {
 			padding-bottom: 10px;
 		}
+
 		> .nav-item {
 			> .nav-link {
 				font-size: 14px;
@@ -103,23 +106,27 @@ h1, h2, h3, h4, h5,
 				font-weight: 400;
 				color: lighten($new-font-color,20%);
 				position: relative;
+
 				&:hover {
 					color: $primary;
 				}
-				opacity: 1!important;
-				@include media-breakpoint-down(md){
+
+				opacity: 1 !important;
+
+				@include media-breakpoint-down(md) {
 					padding-left: 0;
 					padding-right: 0;
 					padding-top: .5rem;
 					padding-bottom: .5rem;
 					color: rgba(255,255,255,.7);
-					&:hover{
+
+					&:hover {
 						color: $white;
 					}
 				}
 			}
 
-			.dropdown-menu{
+			.dropdown-menu {
 				border: none;
 				background: $white;
 				-webkit-box-shadow: 0px 10px 34px -20px rgba(0,0,0,0.41);
@@ -127,53 +134,60 @@ h1, h2, h3, h4, h5,
 				box-shadow: 0px 10px 34px -20px rgba(0,0,0,0.41);
 				border-radius: 4px;
 				padding: 0;
-				.dropdown-item{
+
+				.dropdown-item {
 					font-size: 12px;
 					color: $new-font-color;
-					&:hover, &:focus{
+
+					&:hover, &:focus {
 						background: $primary;
 						color: $white;
 					}
 				}
 			}
 
-			
+
 			&.cta {
 				> a {
 					color: $white;
 					background: $primary;
 					border-radius: 0px;
-					@include media-breakpoint-down(sm){
+
+					@include media-breakpoint-down(sm) {
 						padding-left: 15px;
 						padding-right: 15px;
 					}
-					@include media-breakpoint-down(md){
+
+					@include media-breakpoint-down(md) {
 						color: $white;
 						background: $primary;
 						border-radius: 4px;
 					}
 				}
 			}
+
 			&.active {
 				> a {
 					color: $primary;
-					@include media-breakpoint-down(md){
+
+					@include media-breakpoint-down(md) {
 						color: $white;
 					}
 				}
 			}
 		}
 	}
-	
+
 	.navbar-toggler {
 		border: none;
-		color: rgba(255,255,255,.5)!important;
+		color: rgba(255,255,255,.5) !important;
 		cursor: pointer;
 		padding-right: 0;
 		text-transform: uppercase;
 		font-size: 16px;
 		letter-spacing: .1em;
-		&:focus{
+
+		&:focus {
 			outline: none !important;
 		}
 	}

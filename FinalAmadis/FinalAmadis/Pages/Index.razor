@@ -1,3 +1,71 @@
 ﻿@page "/index"
+@using FinalAmadis.Data
+@using System.Net
+@using Newtonsoft.Json
 
+<div class="container-fluid">
+    <div class="row">
+        @if (Datos != null)
+        {
+            @foreach (var i in Datos)
+            {
+                <div class="col p-2">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <img src="@i.Foto_producto" alt="Alternate Text" width="150" height="125" />
+                            <h5>@i.Nombre_producto</h5>
+                            <h6>@i.Categoria_producto</h6>
+                            <h6>@i.Precio $RD</h6>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
 
+                               <button title="Añadir al carriro" class="btn btn-primary w-100" @onclick="@(async()=> await data(i.ID))"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+@if (Datos == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden"></span>
+        </div>
+    </div>
+}
+
+@code{
+    string eliminar;
+    public dynamic Datos { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccionar_Todo");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
+    }
+
+    public async Task<string> data(string eliminr)
+    {
+        if (eliminr != null)
+        {
+            await Task.Delay(10);
+            eliminar = eliminr;
+        }
+        return null;
+    }
+}
