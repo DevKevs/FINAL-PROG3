@@ -1,9 +1,22 @@
 {
   "version": 2,
-  "dgSpecHash": "K9E2kvPic9q6Ny1kaxT9TxU7E9j3RulmVfvBGKmBPWojHAxD9zjbB1kKoWrgx+czwA0Orsqv2N7qu4x0aLLGzg==",
+  "dgSpecHash": "58TbmUtq0bLE2YI4NzfNfPPlWvvnG3he3TojcMiecBPd9HJ8XEawPyf6rWBcmjuMDfCIUgTGSPfMqxS1spbZrQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gt\\.nuget\\packages\\matblazor\\2.8.0\\matblazor.2.8.0.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.aspnetcore.authorization\\3.1.10\\microsoft.aspnetcore.authorization.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.aspnetcore.components\\3.1.10\\microsoft.aspnetcore.components.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\3.1.10\\microsoft.aspnetcore.components.analyzers.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.aspnetcore.components.forms\\3.1.10\\microsoft.aspnetcore.components.forms.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.aspnetcore.components.web\\3.1.10\\microsoft.aspnetcore.components.web.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.aspnetcore.metadata\\3.1.10\\microsoft.aspnetcore.metadata.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\3.1.10\\microsoft.extensions.dependencyinjection.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.10\\microsoft.extensions.dependencyinjection.abstractions.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.10\\microsoft.extensions.logging.abstractions.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.extensions.options\\3.1.10\\microsoft.extensions.options.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.10\\microsoft.extensions.primitives.3.1.10.nupkg.sha512",
+    "C:\\Users\\gt\\.nuget\\packages\\microsoft.jsinterop\\3.1.10\\microsoft.jsinterop.3.1.10.nupkg.sha512",
     "C:\\Users\\gt\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
   ],
   "logs": []
