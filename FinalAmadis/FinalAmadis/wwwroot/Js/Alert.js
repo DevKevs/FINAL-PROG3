@@ -7,3 +7,10 @@ function Confirmar(icon, title, text) {
         })
     })
 }
+
+function HideModal() {
+    $('#EliminarProducto').modal('hide')
+    $('#EliminarProducto').modal({
+        keyboard: false
+    })
+}

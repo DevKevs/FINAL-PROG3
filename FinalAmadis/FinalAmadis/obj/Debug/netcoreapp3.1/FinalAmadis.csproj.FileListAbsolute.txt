@@ -185,6 +185,7 @@ C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\Microsoft.JSInterop.dll
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\RestSharp.dll
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.csproj.CoreCompileInputs.cache
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\FinalAmadis.dll

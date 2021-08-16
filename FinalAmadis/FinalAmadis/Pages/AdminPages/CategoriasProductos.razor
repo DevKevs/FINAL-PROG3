@@ -6,207 +6,257 @@
 @inject NavigationManager NavigationManager
 @inject ILogger<Index> Logger
 @inject IJSRuntime JSRuntime
+    <div class="card">
+        <div class="card-header" style="background-color: #fff">
+            <div class="row">
+                <div class="col d-inline">
+                    <h3>Categorias de productos</h3>
+                </div>
+                <div class="col d-inline">
+                    <button title="Nueva categoria" class="btn btn-success mr-2 d-inline float-right" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Categoria</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-12">
+                <table class="table table-dark table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Datos != null)
+                        {
+                            @foreach (var prov in Datos)
+                            {
+                                <tr>
+                                    <td>@prov.Nombre_Categoria</td>
+                                    <td>
+                                        <button title="Editar" @onclick="@(async()=> await data(prov))" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
+                                        <button title="Eliminar" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        }
 
-<h3>Categorias de productos</h3>
-<button title="Nueva categoria" class="btn btn-success mr-2" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Categoria</button>
-<hr />
-<div class="col-6">
-    <table class="table table-dark table-borderless" >
-        <thead>
-            <tr>
-                <th>Categoria</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Datos != null)
-            {
-                @foreach (var prov in Datos)
+
+                    </tbody>
+                </table>
+                @if (Datos == null)
                 {
-                    <tr>
-                        <td>@prov.Nombre_Categoria</td>
-                        <td>
-                            <button title="Editar" @onclick="@(async()=> await data(prov))" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
-                            <button title="Eliminar" data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden"></span>
+                        </div>
+                    </div>
                 }
-            }
-
-
-        </tbody>
-    </table>
-    @if (Datos == null)
-    {
-        <div class="d-flex justify-content-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden"></span>
             </div>
         </div>
-    }
-</div>
-
-<!-- Modal editar categria-->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Editar producto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <EditForm Model="@categoria" OnValidSubmit="@HandleValidSubmi">
-                    <DataAnnotationsValidator />
-                    <InputText id="name" placeholder="ID" class="form-control" @bind-Value="categoria.IdCategoria" readonly />
-                    <br />
-                    <InputText id="name" placeholder="Nombre de la categoria" class="form-control" @bind-Value="categoria.Nombre_categoria" />
-                    <ValidationMessage For=@(() => categoria.Nombre_categoria) />
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+        <!-- Modal editar categria-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </EditForm>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal eliminar categoria-->
-<div class="modal fade" id="EliminarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar Categoria</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3>¿Está seguro de eliminar este registro?</h3>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger">Si</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal agregar categotia-->
-<div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Categoria</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <EditForm Model="@categoria" OnValidSubmit="@HandleValidSubmi">
-                    <DataAnnotationsValidator />
-                    <InputText id="name" placeholder="Nombre de la categoria" class="form-control" @bind-Value="categoria.Nombre_categoria" />
-                    <ValidationMessage For=@(() => categoria.Nombre_categoria) />
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    <div class="modal-body">
+                        <EditForm Model="@categoria" OnValidSubmit="@HandleUpdate">
+                            <DataAnnotationsValidator />
+                            <InputText id="name" placeholder="ID" class="form-control" @bind-Value="categoria.IdCategoria" readonly />
+                            <br />
+                            <InputText id="name" placeholder="Nombre de la categoria" class="form-control" @bind-Value="categoria.Nombre_categoria" />
+                            <ValidationMessage For=@(() => categoria.Nombre_categoria) />
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </EditForm>
                     </div>
-                </EditForm>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+        <!-- Modal eliminar categoria-->
+        <div class="modal fade" id="EliminarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminar Categoria</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>¿Está seguro de eliminar "@categoria.Nombre_categoria"?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="button" @onclick="HandleDelete" class="btn btn-danger" data-dismiss="modal">Si</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal agregar categotia-->
+        <div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar Categoria</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <EditForm Model="@categoria" OnValidSubmit="@HandleValidSubmi">
+                            <DataAnnotationsValidator />
+                            <InputText id="name" placeholder="Nombre de la categoria" class="form-control" @bind-Value="categoria.Nombre_categoria" />
+                            <ValidationMessage For=@(() => categoria.Nombre_categoria) />
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Guardar categoria</button>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-@code {
-    public dynamic Datos { get; set; }
-    public dynamic Editable { get; set; }
-    RootCategoria categoria = new RootCategoria();
-    string jsonString;
-    int Selected;
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccionar_Todas_Categoria");
-            WebClient client = new WebClient();
-            var data = await client.DownloadStringTaskAsync(url);
-            Datos = JsonConvert.DeserializeObject(data);
-
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
-
-    }
-
-
-    protected async Task Reload()
-    {
-        try
-        {
-            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccionar_Todas_Categoria");
-            WebClient client = new WebClient();
-            var data = await client.DownloadStringTaskAsync(url);
-            Datos = JsonConvert.DeserializeObject(data);
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
-
-    }
-    private async Task HandleValidSubmi()
-    {
-        try
-        {
-            jsonString = JsonConvert.SerializeObject(categoria);
-            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Registro_Categorias");
-            WebClient client = new WebClient();
-            var data = await client.UploadStringTaskAsync(url, jsonString);
-            Editable = JsonConvert.DeserializeObject(data);
-            if (Editable != null)
+        @code {
+            public dynamic Datos { get; set; }
+            public dynamic Editable { get; set; }
+            RootCategoria categoria = new RootCategoria();
+            string jsonString;
+            Api consume = new Api();
+            protected override async Task OnInitializedAsync()
             {
-                Datos = null;
-                await Reload();
-                categoria = new RootCategoria();
-                Mensajes();
+                try
+                {
+                    Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Todas_Categoria");
+                    WebClient client = new WebClient();
+                    var data = await client.DownloadStringTaskAsync(url);
+                    Datos = JsonConvert.DeserializeObject(data);
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
             }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
 
 
-    }
-    private async Task Mensajes()
-    {
-        if (Editable.ok == true)
-        {
-            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Los datos se guardaron con exito!");
-        }
-        else
-        {
-            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
-        }
+            protected async Task Reload()
+            {
+                try
+                {
+                    Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Todas_Categoria");
+                    WebClient client = new WebClient();
+                    var data = await client.DownloadStringTaskAsync(url);
+                    Datos = JsonConvert.DeserializeObject(data);
+                }
+                catch (Exception)
+                {
 
-    }
-    public async Task<dynamic> data(dynamic select)
-    {
+                    throw;
+                }
 
-        await Task.Delay(10);
-        if (select != null)
-        {
-            categoria.IdCategoria = select.IdCategoria;
-            categoria.Nombre_categoria = select.Nombre_Categoria;
+            }
+            private async Task HandleValidSubmi()
+            {
+                try
+                {
+                    jsonString = JsonConvert.SerializeObject(categoria);
+                    Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Registro_Categorias");
+                    WebClient client = new WebClient();
+                    var data = await client.UploadStringTaskAsync(url, jsonString);
+                    Editable = JsonConvert.DeserializeObject(data);
+                    if (Editable != null)
+                    {
+                        Datos = null;
+                        await Reload();
+                        categoria = new RootCategoria();
+                        Mensajes();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+
+            }
+            private async Task Mensajes()
+            {
+                if (Editable.ok == true)
+                {
+                    await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Los datos se guardaron con exito!");
+                }
+                else
+                {
+                    await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+                }
+
+            }
+            public async Task<dynamic> data(dynamic select)
+            {
+
+                await Task.Delay(10);
+                if (select != null)
+                {
+                    categoria.IdCategoria = select.IdCategoria;
+                    categoria.Nombre_categoria = select.Nombre_Categoria;
+                }
+                return null;
+            }
+            private async Task HandleUpdate()
+            {
+                try
+                {
+                    jsonString = JsonConvert.SerializeObject(categoria);
+                    Editable = consume.Post("https://super-mini-market.herokuapp.com/api/Actualizar_Categoria/" + categoria.IdCategoria, jsonString);
+                    if (Editable != null)
+                    {
+                        Datos = null;
+                        await Reload();
+                        Mensajes();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+
+            }
+            private async Task HandleDelete()
+            {
+                try
+                {
+                    string url = "https://super-mini-market.herokuapp.com/api/Borrar_Categoria/" + categoria.IdCategoria;
+                    Editable = consume.Get(url);
+                    if (Editable != null)
+                    {
+                        Datos = null;
+                        await Reload();
+                        categoria = new RootCategoria();
+                        Mensajes();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+
+            }
+
         }
-        return null;
-    }
-
-}

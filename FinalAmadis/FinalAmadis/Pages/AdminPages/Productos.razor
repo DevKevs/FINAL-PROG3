@@ -2,56 +2,69 @@
 @using FinalAmadis.Data
 @using System.Net
 @using Newtonsoft.Json
-<h1>Productos</h1>
-<button title="Nuevo producto" class="btn btn-success mr-2" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Producto</button>
-<hr />
-<table class="table table-dark table-borderless">
-    <thead>
-        <tr>
-            <th>Nombre producto</th>
-            <th>Categoria</th>
-            <th>Foto</th>
-            <th>Descripcion</th>
-            <th>Stock</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Datos != null)
-        {
-            @foreach (var prov in Datos)
-            {
-                <tr>
-                    <td>@prov.Nombre_producto</td>
-                    <td>@prov.Categoria_producto</td>
-                    <td><img src="@prov.Foto_producto" width="50" height="50"/></td>
-                    <td>@prov.Descripcion_producto</td>
-                    <td>@prov.Stock</td>
-                    <td>@prov.Precio</td>
-                    <td><button title="Editar" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
-                        <button title="Eliminar" data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-            }
-        }
+@inject IJSRuntime JSRuntime
 
-
-    </tbody>
-</table>
-@if (Datos == null)
-{
-    <div class="d-flex justify-content-center">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden"></span>
+<div class="card">
+    <div class="card-header" style="background-color: #fff">
+        <div class="row">
+            <div class="col d-inline">
+                <h1 class="d-inline">Productos</h1>
+            </div>
+            <div class="col d-inline">
+                <button title="Nuevo producto" @onclick="Clear" class="btn btn-success mr-2 d-inline float-right" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Producto</button>
+            </div>
         </div>
     </div>
-}
+    <div class="card-body">
+        <table class="table table-dark table-borderless">
+            <thead>
+                <tr>
+                    <th>Nombre producto</th>
+                    <th>Categoria</th>
+                    <th>Foto</th>
+                    <th>Descripcion</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Datos != null)
+                {
+                    @foreach (var prov in Datos)
+                    {
+                        <tr>
+                            <td>@prov.Nombre_producto</td>
+                            <td>@prov.Categoria_producto</td>
+                            <td><img src="@prov.Foto_producto" width="50" height="50" /></td>
+                            <td>@prov.Descripcion_producto</td>
+                            <td>@prov.Stock</td>
+                            <td>@prov.Precio</td>
+                            <td>
+                                <button title="Editar" @onclick="@(async()=> await data(prov))" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
+                                <button title="Eliminar"  @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @if (Datos == null)
+        {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden"></span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
 
 
 <!-- Modal editar producto-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Editar producto</h5>
@@ -60,11 +73,57 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input class="form-control" placeholder="ID" readonly />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <EditForm Model="@productos" OnValidSubmit="@HandleUpdate">
+                    <DataAnnotationsValidator />
+                    <InputText type="hidden" id="name" placeholder="ID" class="form-control mb-2" @bind-Value="productos.IdProducto" readonly />
+                    <div class="row">
+                        <div class="col">
+                            <InputText id="name" placeholder="Nombre del producto" class="form-control" @bind-Value="productos.Nombre_producto" />
+                            <ValidationMessage For=@(() => productos.Nombre_producto) />
+                        </div>
+                        <div class="col">
+                            <InputSelect id="Drop" @bind-Value="@productos.Categoria_producto" class="form-control">
+                                <option value="" disabled selected>Seleccione el producto</option>
+                                @if (Drop != null)
+                                {
+                                    @foreach (var i in Drop)
+                                    {
+                                        <option value="@i.Nombre_Categoria"> @i.Nombre_Categoria</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="" disabled selected>Cargando...</option>
+                                }
+                            </InputSelect>
+                            <ValidationMessage For=@(() => productos.Categoria_producto) />
+                        </div>
+                    </div>
+                    <InputTextArea id="name" placeholder="Descripcion" class="form-control mt-2" @bind-Value="productos.Descripcion_producto" />
+                    <ValidationMessage For=@(() => productos.Descripcion_producto) />
+                    <div class="row mt-2">
+                        <div class="col">
+                            <InputText id="name" placeholder="Precio" class="form-control" @bind-Value="productos.Precio" />
+                            <ValidationMessage For=@(() => productos.Precio) />
+                        </div>
+                        <div class="col">
+                            <InputText id="name" placeholder="Stock" class="form-control" @bind-Value="productos.Stock" />
+                            <ValidationMessage For=@(() => productos.Stock) />
+                        </div>
+                    </div>
+                    <InputText id="name" placeholder="Url Foto Producto" class="form-control mt-2" @bind-Value="productos.Foto_producto" />
+                    <ValidationMessage For=@(() => productos.Foto_producto) />
+                    @if (productos.Foto_producto != null)
+                    {
+                        <center>
+                            <img src="@productos.Foto_producto" width="200" height="200" class="mb-3 mt-3"/>
+                        </center>
+                    }
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </EditForm>
             </div>
         </div>
     </div>
@@ -81,11 +140,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h3>¿Está seguro de eliminar este registro?</h3>
+                <h3>¿Está seguro de eliminar el producto "@productos.Nombre_producto"?</h3>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger">Si</button>
+                <button type="button" @onclick="HandleDelete" class="btn btn-danger" data-dismiss="modal">Si</button>
             </div>
         </div>
     </div>
@@ -93,7 +152,7 @@
 
 <!-- Modal agregar producto-->
 <div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Agregar producto</h5>
@@ -102,19 +161,68 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input class="form-control" placeholder="ID" readonly />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <EditForm Model="@productos" OnValidSubmit="@HandleSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="row">
+                        <div class="col">
+                            <InputText id="name" placeholder="Nombre del producto" class="form-control" @bind-Value="productos.Nombre_producto" />
+                            <ValidationMessage For=@(() => productos.Nombre_producto) />
+                        </div>
+                        <div class="col">
+                            <InputSelect id="Drop" @bind-Value="@productos.Categoria_producto" class="form-control">
+                                <option selected disabled value="">Seleccione el producto</option>
+                                @if (Drop != null)
+                                {
+                                    @foreach (var i in Drop)
+                                    {
+                                        <option value="@i.Nombre_Categoria"> @i.Nombre_Categoria</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option selected disabled value="">Cargando...</option>
+                                }
+                            </InputSelect>
+                            <ValidationMessage For=@(() => productos.Categoria_producto) />
+                        </div>
+                    </div>
+                    <InputTextArea id="name" placeholder="Descripcion" class="form-control mt-2" @bind-Value="productos.Descripcion_producto" />
+                    <ValidationMessage For=@(() => productos.Descripcion_producto) />
+                    <div class="row mt-2">
+                        <div class="col">
+                            <InputText id="name" placeholder="Precio" class="form-control" @bind-Value="productos.Precio" />
+                            <ValidationMessage For=@(() => productos.Precio) />
+                        </div>
+                        <div class="col">
+                            <InputText id="name" placeholder="Stock" class="form-control" @bind-Value="productos.Stock" />
+                            <ValidationMessage For=@(() => productos.Stock) />
+                        </div>
+                    </div>
+                    <InputText id="name" placeholder="Url Foto Producto" class="form-control mt-2" @bind-Value="productos.Foto_producto" />
+                    <ValidationMessage For=@(() => productos.Foto_producto) />
+                    @if (productos.Foto_producto != null)
+                    {
+                        <center>
+                            <img src="@productos.Foto_producto" width="200" height="200" class="mb-3 mt-3" />
+                        </center>
+                    }
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </EditForm>
             </div>
         </div>
     </div>
 </div>
 
-
 @code {
     public dynamic Datos { get; set; }
+    public dynamic Drop { get; set; }
+    public dynamic Editable { get; set; }
+    string jsonString;
+    Api consume = new Api();
+    RootProductos productos = new RootProductos();
     protected override async Task OnInitializedAsync()
     {
         try
@@ -123,6 +231,7 @@
             WebClient client = new WebClient();
             var data = await client.DownloadStringTaskAsync(url);
             Datos = JsonConvert.DeserializeObject(data);
+            await DropItems();
         }
         catch (Exception)
         {
@@ -130,5 +239,120 @@
             throw;
         }
 
+    }
+    protected async Task Reload()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccionar_Todo");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+            await DropItems();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
+    }
+    async Task DropItems()
+    {
+        Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Todas_Categoria");
+        WebClient client = new WebClient();
+        var data = await client.DownloadStringTaskAsync(url);
+        Drop = JsonConvert.DeserializeObject(data);
+    }
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            jsonString = JsonConvert.SerializeObject(productos);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Registro_Productos");
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                productos = new RootProductos();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    public async Task<dynamic> data(dynamic select)
+    {
+
+        await Task.Delay(10);
+        if (select != null)
+        {
+            productos.IdProducto = select.IdProducto;
+            productos.Nombre_producto = select.Nombre_producto;
+            productos.Categoria_producto = select.Categoria_producto;
+            productos.Foto_producto = select.Foto_producto;
+            productos.Descripcion_producto = select.Descripcion_producto;
+            productos.Stock = select.Stock;
+            productos.Precio = select.Precio;
+        }
+        return null;
+    }
+    private async Task Mensajes()
+    {
+        if (Editable.ok == true)
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Los datos se guardaron con exito!");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+        }
+
+    }
+    void Clear()
+    {
+        productos = new RootProductos();
+    }
+    private async Task HandleUpdate()
+    {
+        try
+        {
+            jsonString = JsonConvert.SerializeObject(productos);
+            Editable = consume.Post("https://super-mini-market.herokuapp.com/api/Actualizar_Producto/" + productos.IdProducto, jsonString);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    private async Task HandleDelete()
+    {
+        try
+        {
+            string url = "https://super-mini-market.herokuapp.com/api/Borrar_Producto/" + productos.IdProducto;
+            Editable = consume.Get(url);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                productos = new RootProductos();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }

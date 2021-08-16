@@ -8,7 +8,7 @@ namespace FinalAmadis.Data
 {
     public class RootProductos
     {
-        public int IdProducto { get; set; }
+        public string IdProducto { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio...")]
         public string Nombre_producto { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio...")]
@@ -21,5 +21,6 @@ namespace FinalAmadis.Data
         public string Stock { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio...")]
         public string Precio { get; set; }
+
     }
 }
