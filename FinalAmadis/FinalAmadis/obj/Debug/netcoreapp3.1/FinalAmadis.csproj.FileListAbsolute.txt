@@ -136,7 +136,6 @@ C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\FinalAmadis.pdb
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\FinalAmadis.Views.dll
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\FinalAmadis.Views.pdb
-C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.csprojAssemblyReference.cache
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.AssemblyInfoInputs.cache
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.AssemblyInfo.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.RazorComponent.input.cache
@@ -294,3 +293,6 @@ C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Carrito.razor.g.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Usuarios.razor.g.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\Carrito.razor.g.cs
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\Slider.razor.g.cs
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Slider.razor.g.cs
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.csprojAssemblyReference.cache

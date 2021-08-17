@@ -1,0 +1,285 @@
+﻿@page "/Slider"
+@using FinalAmadis.Data
+@using System.Net
+@using Newtonsoft.Json
+@using Microsoft.Extensions.Logging
+@inject ILogger<Index> Logger
+@inject IJSRuntime JSRuntime
+
+<div class="card">
+    <div class="card-header" style="background-color: #fff">
+        <div class="row">
+            <div class="col d-inline">
+                <h1 class="d-inline">Slider</h1>
+            </div>
+            <div class="col d-inline">
+                <button title="Nuevo producto" @onclick="Clear" class="btn btn-success mr-2 d-inline float-right" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Slide</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="Buscar"
+                   @bind="Buscar"
+                   @bind:event="oninput">
+        </div>
+        <table class="table table-dark table-borderless">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Recurso</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Datos != null)
+                {
+                    @foreach (var prov in Datos)
+                    {
+                        if (!IsVisible(prov))
+                            continue;
+                        <tr>
+                            <td>@prov.Titulo</td>
+                            <td><img src="@prov.Recurso" width="300" height="150" style="border-radius:5px" /></td>
+                            <td>
+                                <button title="Editar" @onclick="@(async()=> await data(prov))" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
+                                <button title="Eliminar" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @if (Datos == null)
+        {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden"></span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<!-- Modal editar slides-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Slide</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@slides" OnValidSubmit="@HandleUpdate">
+                    <DataAnnotationsValidator />
+                    <InputText id="name" placeholder="Titulo" class="form-control mb-2" @bind-Value="slides.Titulo" />
+                    <ValidationMessage For=@(() => slides.Titulo) />
+                    <InputText id="name" placeholder="Url recurso" class="form-control mb-2" @bind-Value="slides.Recurso" />
+                    <ValidationMessage For=@(() => slides.Recurso) />
+                    @if (slides.Recurso != null)
+                    {
+                        <center>
+                            <img src="@slides.Recurso" height="150" style="border-radius:5px" class="mb-2" />
+                        </center>
+                    }
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Guardar Slide</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal eliminar slides-->
+<div class="modal fade" id="EliminarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Slide</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>¿Esta seguro que quiere borra el slide "@slides.Titulo"?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" @onclick="HandleDelete" class="btn btn-danger" data-dismiss="modal">Si</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal agregar slides-->
+<div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@slides" OnValidSubmit="@HandleValidSubmi">
+                    <DataAnnotationsValidator />
+                    <InputText id="name" placeholder="Titulo" class="form-control mb-2" @bind-Value="slides.Titulo" />
+                    <ValidationMessage For=@(() => slides.Titulo) />
+                    <InputText id="name" placeholder="Url recurso" class="form-control mb-2" @bind-Value="slides.Recurso" />
+                    <ValidationMessage For=@(() => slides.Recurso) />
+                    @if (slides.Recurso != null)
+                    {
+                        <center>
+                            <img src="@slides.Recurso" height="150" style="border-radius:5px" class="mb-2"/>
+                        </center>
+                    }
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Guardar Slide</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public dynamic Datos { get; set; }
+    public dynamic Editable { get; set; }
+    string jsonString;
+    Api consume = new Api();
+    Sliders slides = new Sliders();
+    public string Buscar { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Todos_Slides");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+    }
+    protected async Task Reload()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Todos_Slides");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+    }
+    private async Task HandleValidSubmi()
+    {
+        try
+        {
+            jsonString = JsonConvert.SerializeObject(slides);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Registrar_Slides");
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                slides = new Sliders();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    private async Task HandleUpdate()
+    {
+        try
+        {
+            jsonString = JsonConvert.SerializeObject(slides);
+            Editable = consume.Post("https://super-mini-market.herokuapp.com/api/Actualizar_Slides/" + slides.IdSlider, jsonString);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+
+    }
+    private async Task HandleDelete()
+    {
+        try
+        {
+            string url = "https://super-mini-market.herokuapp.com/api/Borrar_Slides/" + slides.IdSlider;
+            Editable = consume.Get(url);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                slides = new Sliders();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    public bool IsVisible(dynamic productos)
+    {
+        if (string.IsNullOrEmpty(Buscar))
+            return true;
+        if (productos.Titulo.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    public async Task<dynamic> data(dynamic select)
+    {
+
+        await Task.Delay(10);
+        if (select != null)
+        {
+            slides.IdSlider = select.IdSlider;
+            slides.Titulo = select.Titulo;
+            slides.Recurso = select.Recurso;
+        }
+        return null;
+    }
+    private async Task Mensajes()
+    {
+        if (Editable.ok == true)
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Los datos se guardaron con exito!");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+        }
+
+    }
+
+    void Clear()
+    {
+        slides = new Sliders();
+    }
+}

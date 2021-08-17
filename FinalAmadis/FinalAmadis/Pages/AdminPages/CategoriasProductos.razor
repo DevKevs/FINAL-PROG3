@@ -13,7 +13,7 @@
                     <h3>Categorias de productos</h3>
                 </div>
                 <div class="col d-inline">
-                    <button title="Nueva categoria" class="btn btn-success mr-2 d-inline float-right" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Categoria</button>
+                    <button title="Nueva categoria" @onclick="Clear" class="btn btn-success mr-2 d-inline float-right" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Categoria</button>
                 </div>
             </div>
         </div>
@@ -143,7 +143,7 @@
             string jsonString;
             Api consume = new Api();
             public string Buscar { get; set; }
-            
+
             protected override async Task OnInitializedAsync()
             {
                 try
@@ -273,5 +273,8 @@
                     return true;
                 return false;
             }
-
+            void Clear()
+            {
+                categoria = new RootCategoria();
+            }
         }
