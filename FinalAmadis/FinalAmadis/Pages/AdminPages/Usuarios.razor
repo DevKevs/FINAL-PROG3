@@ -1,6 +1,186 @@
 ﻿@page "/Usuarios"
-<h3>Usuarios</h3>
+@using FinalAmadis.Data
+@using System.Net
+@using Newtonsoft.Json
+@using Microsoft.Extensions.Logging
+@inject NavigationManager NavigationManager
+@inject ILogger<Index> Logger
+@inject IJSRuntime JSRuntime
+<div class="card">
+    <div class="card-header" style="background-color: #fff">
+        <div class="row">
+            <div class="col d-inline">
+                <h3>Usuarios</h3>
+            </div>
+            <div class="col d-inline">
+                <button title="Nueva categoria" class="btn btn-success mr-2 d-inline float-right" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Usuario</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-12">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Buscar"
+                       @bind="Buscar"
+                       @bind:event="oninput">
+            </div>
+            <table class="table table-dark table-borderless">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apelliddo</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Datos != null)
+                    {
+                        @foreach (var prov in Datos)
+                        {
+                            if (!IsVisible(prov))
+                                continue;
+                            <tr>
+                                <td>@prov.Nombre_Usuario</td>
+                                <td>@prov.Apellido_Usuario</td>
+                                <td>@prov.Fecha_Nacimiento</td>
+                                <td>@prov.Correo</td>
+                                <td>@prov.Rol</td>
+                                <td>
+
+                                    <button title="Hacer admin" @onclick="@(async()=> await data(prov))" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
+                                    @if (prov.Rol != "SuperAdmin")
+                                    {
+                                        <button title="Eliminar" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button title="No te puedes eliminar a ti mismo" disabled data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+
+
+                </tbody>
+            </table>
+            @if (Datos == null)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal editar categria-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal eliminar categoria-->
+<div class="modal fade" id="EliminarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Si</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal agregar categotia-->
+<div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
-    
+    public dynamic Datos { get; set; }
+    public dynamic Editable { get; set; }
+    string jsonString;
+    Api consume = new Api();
+    public string Buscar { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Usuarios");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
+    }
+    public bool IsVisible(dynamic cate)
+    {
+        if (string.IsNullOrEmpty(Buscar))
+            return true;
+        if (cate.Nombre_Usuario.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (cate.Apellido_Usuario.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (cate.Fecha_Nacimiento.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (cate.Correo.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (cate.Rol.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    public async Task<dynamic> data(dynamic select)
+    {
+
+        await Task.Delay(10);
+        if (select != null)
+        {
+
+        }
+        return null;
+    }
 }

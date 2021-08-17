@@ -290,3 +290,7 @@ C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreap
 C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\Carrito.razor.g.cs
 C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\Usuarios.razor.g.cs
 C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Usuarios.razor.g.cs
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\Usuarios.razor.g.cs
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Carrito.razor.g.cs
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Usuarios.razor.g.cs
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\Carrito.razor.g.cs

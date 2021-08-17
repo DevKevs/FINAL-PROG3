@@ -1,4 +1,49 @@
 ﻿@page "/admin"
 @using FinalAmadis.Data
+@using System.Net
+@using Newtonsoft.Json
+@using Microsoft.Extensions.Logging
+@inject NavigationManager NavigationManager
+@inject ILogger<Index> Logger
+@inject IJSRuntime JSRuntime
 
 <h1>Admin Panel</h1>
+@if (Datos != null)
+{
+    <h5>Usuarios conectados: @Datos.conectados</h5>
+}
+@if (Datos == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden"></span>
+        </div>
+    </div>
+}
+
+@code{
+
+    public dynamic Datos { get; set; }
+    public dynamic Editable { get; set; }
+    string jsonString;
+    Api consume = new Api();
+    public string Buscar { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Conectados");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
+    }
+}
