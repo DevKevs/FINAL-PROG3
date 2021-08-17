@@ -1,9 +1,16 @@
 ﻿@page "/index"
 @using FinalAmadis.Data
 @using System.Net
+@using MatBlazor
 @using Newtonsoft.Json
+@inject IJSRuntime JSRuntime
 
-  
+<style>
+p{
+    color: black;
+}
+
+</style>
 <div class="container-fluid">
     <div class="row">
         @if (Datos != null)
@@ -13,16 +20,13 @@
                 <div class="col p-2">
                     <div class="card p-4">
                         <div class="card-body">
-                            <img src="@i.Foto_producto" alt="Alternate Text" width="150" height="125" />
+                            <img class="img-fluid mb-2" src="@i.Foto_producto" alt="Alternate Text" style="width: 85%;"/>
                             <h5>@i.Nombre_producto</h5>
                             <h6>@i.Categoria_producto</h6>
                             <h6>@i.Precio $RD</h6>
                         </div>
-                        <div class="card-footer">
-                            <div class="row">
-
-                               <button title="Añadir al carriro" class="btn btn-primary w-100" @onclick="@(async()=> await data(i))"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
+                        <div style="background-color: transparent;" class="card-footer">
+                            <button title="Añadir al carrito" data-toggle="modal" data-target="#AgregarProducto" class="btn btn-primary w-100" @onclick="@(async () => await data(i))"><i class="fas fa-shopping-cart"></i></button>
                         </div>
                     </div>
                 </div>
@@ -40,10 +44,64 @@
     </div>
 }
 
+<div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4>@productos.Nombre_producto</h4>
+                        <p>@productos.Categoria_producto</p>
+                        <p>@productos.Precio $RD</p>
+                        <hr>
+                        <h6 class="mb-3">@productos.Stock Unidad/es disponible/es</h6>
+                    </div>
+                    <div class="col">
+                        <img class="img-fluid ml-4" src="@productos.Foto_producto" style="width: 85%; height: 85%;" alt="producto">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>Selecciona la cantidad</label>
+                        @if (productos.Stock != null)
+                        {
+                            <select id="Drop" class="form-control">
+
+                                @if (productos.Stock != null)
+                                {
+                                    for (int i = 1; i <= int.Parse(productos.Stock); i++)
+                                    {
+                                        <option value="@i"> @i</option>
+                                    }
+                                }
+                            </select>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @code{
     string eliminar;
     public dynamic Datos { get; set; }
     List<Slider> slider = new List<Slider>();
+    public dynamic StorageData { get; set; }
+    RootProductos productos = new RootProductos();
+    List<int> cantidad = new List<int>();
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -52,22 +110,52 @@
             WebClient client = new WebClient();
             var data = await client.DownloadStringTaskAsync(url);
             Datos = JsonConvert.DeserializeObject(data);
+            //Cantidades();
         }
         catch (Exception)
         {
 
             throw;
         }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
+                StorageData = JsonConvert.DeserializeObject(storage);
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
     }
 
-    public async Task<dynamic> data(dynamic eliminr)
+    public async Task<dynamic> data(dynamic selected)
     {
-        if (eliminr != null)
+        if (selected != null)
         {
             await Task.Delay(10);
-            eliminar = eliminr;
+            productos.Nombre_producto = selected.Nombre_producto;
+            productos.Categoria_producto = selected.Categoria_producto;
+            productos.Precio = selected.Precio;
+            productos.Stock = selected.Stock;
+            productos.Foto_producto = selected.Foto_producto;
         }
         return null;
     }
+
+    // private void Cantidades()
+    // {
+    //     
+    //     for (int i = 0; i < UPPER; i++)
+    //     {
+    //         cantidad.Add();
+    //     }
+    // }
 }

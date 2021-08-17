@@ -4,6 +4,7 @@
 @using Newtonsoft.Json
 @inject IJSRuntime JSRuntime
 
+
 <div class="card">
     <div class="card-header" style="background-color: #fff">
         <div class="row">
@@ -16,6 +17,11 @@
         </div>
     </div>
     <div class="card-body">
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="Buscar"
+                   @bind="Buscar"
+                   @bind:event="oninput">
+        </div>
         <table class="table table-dark table-borderless">
             <thead>
                 <tr>
@@ -33,10 +39,12 @@
                 {
                     @foreach (var prov in Datos)
                     {
+                        if (!IsVisible(prov))
+                            continue;
                         <tr>
                             <td>@prov.Nombre_producto</td>
                             <td>@prov.Categoria_producto</td>
-                            <td><img src="@prov.Foto_producto" width="50" height="50" /></td>
+                            <td><img src="@prov.Foto_producto" width="50" height="50" style="border-radius:5px"/></td>
                             <td>@prov.Descripcion_producto</td>
                             <td>@prov.Stock</td>
                             <td>@prov.Precio</td>
@@ -223,6 +231,10 @@
     string jsonString;
     Api consume = new Api();
     RootProductos productos = new RootProductos();
+    private RootProductos[] filtro;
+    
+    public string Buscar { get; set; }
+    
     protected override async Task OnInitializedAsync()
     {
         try
@@ -235,7 +247,6 @@
         }
         catch (Exception)
         {
-
             throw;
         }
 
@@ -354,5 +365,16 @@
         {
             Console.WriteLine(e.Message);
         }
+    }
+    
+    public bool IsVisible(dynamic productos)
+    {
+        if (string.IsNullOrEmpty(Buscar))
+            return true;
+        if (productos.Nombre_producto.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (productos.Categoria_producto.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
     }
 }

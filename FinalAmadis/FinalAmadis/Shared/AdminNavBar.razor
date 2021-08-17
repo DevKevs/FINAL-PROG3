@@ -1,10 +1,15 @@
-﻿
+﻿@using Newtonsoft.Json
+@inject IJSRuntime JSRuntime
+
         <!-- Sidebar  -->
 <div class="sidebar">
     <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>Admin</h3>
-            </div>
+        <div class="sidebar-header">
+            @if (StorageData != null)
+            {
+                <h3>@StorageData.Rol</h3>
+            }
+        </div>
             <div class="container">
                 <ul class="list-unstyled components">
                     <p>Fusion Market</p>
@@ -23,6 +28,15 @@
                     <li>
                         <a href="/admin">Clientes</a>
                     </li>
+                    @if (StorageData != null)
+                    {
+                        if (StorageData.Rol == "SuperAdmin")
+                        {
+                            <li>
+                                <a href="/Usuarios">Usuarios</a>
+                            </li>
+                        }
+                    }
                 </ul>
             </div>
             
@@ -36,7 +50,27 @@
         </nav>
 
 </div>
-        
+@code{
+    public dynamic StorageData { get; set; }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
+                StorageData = JsonConvert.DeserializeObject(storage);
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    }
+}        
         
  
 

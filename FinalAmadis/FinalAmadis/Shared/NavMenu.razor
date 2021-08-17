@@ -1,4 +1,7 @@
-﻿<section class="ftco-section" style="position: -webkit-sticky; position: sticky; top: 0; z-index: 999999;">
+﻿@using Newtonsoft.Json
+@using System.Net
+@inject IJSRuntime JSRuntime
+<section class="ftco-section" style="position: -webkit-sticky; position: sticky; top: 0; z-index: 999;">
     
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar">
@@ -10,8 +13,9 @@
                 <div class="collapse navbar-collapse" id="ftco-nav">
                     <ul class="navbar-nav ml-auto mr-md-3" style="justify-content: space-between;">
                         <li class="nav-item"><a href="/index" class="nav-link">Pedidos <i class="fas fa-box-open"></i></a></li>
-                        <li class="nav-item"><a href="/index" class="nav-link">Carrito <i class="fas fa-shopping-cart"></i></a></li>
-                        <li class="nav-item"><a href="/index" class="nav-link">Mi cuenta <i class="fas fa-user-circle"></i></a></li>
+                        <li class="nav-item"><a href="/Carrito" class="nav-link">Carrito <i class="fas fa-shopping-cart"></i></a></li>
+                        
+                        <li class="nav-item"><a href="/index" class="nav-link">@if(StorageData != null){<h6>@StorageData.Nombre  @StorageData.Apellido <i class="fas fa-user-circle"></i></h6> }</a></li>
                         <li class="nav-item"><a href="/" class="nav-link">Cerrar sesión <i class="fas fa-sign-out-alt"></i></a></li>
                     </ul>
                 </div>
@@ -21,4 +25,28 @@
     </div>
 
 </section>
+
+@code{
+    public dynamic StorageData { get; set; } = null;
+    
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
+                StorageData = JsonConvert.DeserializeObject(storage);
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    }
+    
+}
 

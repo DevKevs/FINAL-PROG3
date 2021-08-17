@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace FinalAmadis.Shared
+namespace FinalAmadis.Pages
 {
     #line hidden
     using System;
@@ -75,56 +75,14 @@ using FinalAmadis.Shared;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 1 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Shared\NavMenu.razor"
-using Newtonsoft.Json;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 2 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Shared\NavMenu.razor"
-using System.Net;
-
-#line default
-#line hidden
-#nullable disable
-    public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Carrito")]
+    public partial class Carrito : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 29 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Shared\NavMenu.razor"
-      
-    public dynamic StorageData { get; set; } = null;
-    
-    
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
-                StorageData = JsonConvert.DeserializeObject(storage);
-                StateHasChanged();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-    }
-    
-
-#line default
-#line hidden
-#nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
     }
 }
 #pragma warning restore 1591

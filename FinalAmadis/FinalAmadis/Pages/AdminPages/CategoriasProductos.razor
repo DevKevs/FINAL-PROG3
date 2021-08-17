@@ -19,6 +19,11 @@
         </div>
         <div class="card-body">
             <div class="col-12">
+            <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Buscar"
+                               @bind="Buscar"
+                               @bind:event="oninput">
+                    </div>
                 <table class="table table-dark table-borderless">
                     <thead>
                         <tr>
@@ -31,6 +36,8 @@
                         {
                             @foreach (var prov in Datos)
                             {
+                                if (!IsVisible(prov))
+                                    continue;
                                 <tr>
                                     <td>@prov.Nombre_Categoria</td>
                                     <td>
@@ -135,6 +142,8 @@
             RootCategoria categoria = new RootCategoria();
             string jsonString;
             Api consume = new Api();
+            public string Buscar { get; set; }
+            
             protected override async Task OnInitializedAsync()
             {
                 try
@@ -255,8 +264,14 @@
                 {
                     Console.WriteLine(e.Message);
                 }
-
-
+            }
+            public bool IsVisible(dynamic cate)
+            {
+                if (string.IsNullOrEmpty(Buscar))
+                    return true;
+                if (cate.Nombre_Categoria.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+                    return true;
+                return false;
             }
 
         }

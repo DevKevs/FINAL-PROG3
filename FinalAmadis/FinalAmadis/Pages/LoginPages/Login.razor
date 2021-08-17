@@ -1,7 +1,11 @@
 ﻿@page "/"
 @inject NavigationManager NavigationManager
 @using FinalAmadis.Data
-
+@using Newtonsoft.Json
+@using System.Net
+@using System.Runtime.CompilerServices
+@using System.Threading
+@inject IJSRuntime JSRuntime
 <center>
     <div class="col-8 card">
         <div class="col-12 row">
@@ -12,7 +16,7 @@
                 <img src="/Shopping-rafiki.svg" width="400" />
             </div>
             <div class="col-6" style="border-left:thick">
-                <EditForm Model="@user" OnValidSubmit="@ValidateUser">
+                <EditForm Model="@user" OnValidSubmit="@HandleSubmit">
                     <DataAnnotationsValidator />
                     <div>
                         <br /><br /><br /><br /><br />
@@ -24,11 +28,13 @@
                         <br />
                     </div>
                     <div class="col-12 row">
-                        <input class="form-control col-12" @bind="user.Email" placeholder="Direccion de correo" />
+                        <InputText id="Correo" type="email" placeholder="Correo electronico" class="form-control" @bind-Value="user.Correo" />
+                        <ValidationMessage For=@(() => user.Correo) />
                     </div>
                     <br />
                     <div class="col-12 row">
-                        <input type="password" class="form-control col-12" @bind="user.Passw" placeholder="Contraseña" />
+                        <InputText id="Contraseña" type="password" placeholder="Contraseña" class="form-control" @bind-Value="user.Contraseña" />
+                        <ValidationMessage For=@(() => user.Contraseña) />
                     </div>
                     <br />
                     <div class="col-12 row">
@@ -51,45 +57,53 @@
 
 @code {
     private Usuario user = new Usuario();
-
-    //Pruebas
+    string jsonString;
     List<Usuario> usuarios = new List<Usuario>();
     string LoginMesssage;
-    protected override void OnInitialized()
-    {
-        usuarios.Add(new Usuario() { Email = "Kevinfeliz@gmail.com", Passw = "1234", Rol = "user" });
-        usuarios.Add(new Usuario() { Email = "huascarm@gmail.com", Passw = "12345", Rol = "admin" });
-    }
+    public dynamic Editable { get; set; }
 
-    private void ValidateUser()
+   
+
+    private async Task HandleSubmit()
     {
         try
         {
-            var query = from u in usuarios
-                        where u.Email == user.Email & u.Passw == user.Passw
-                        select u;
-            if (query.Count() == 1)
+            jsonString = JsonConvert.SerializeObject(user);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/login");
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
             {
-                Usuario encontrado = query.First();
-                if (encontrado.Rol == "admin")
+                if (Editable.ok == true)
                 {
-                    NavigationManager.NavigateTo("/admin");
+                    if (Editable.Datos_Usuarios.Rol == "Administrador" || Editable.Datos_Usuarios.Rol == "SuperAdmin" )
+                    {
+                        NavigationManager.NavigateTo("/admin");
+                        await JSRuntime.InvokeVoidAsync("storage", $"{Editable.Datos_Usuarios}");
+                    }
+                    else if(Editable.Datos_Usuarios.Rol == "Cliente")
+                    {
+                        NavigationManager.NavigateTo("/index");
+                        await JSRuntime.InvokeVoidAsync("storage", $"{Editable.Datos_Usuarios}");
+                    }
                 }
-                if (encontrado.Rol == "user")
+                else
                 {
-                    NavigationManager.NavigateTo("/index");
+                    await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Datos incorrectos");
+                    user = new Usuario();
                 }
-            }
-            else
-            {
-                LoginMesssage = "Datos erroneos...";
             }
         }
-        catch (Exception)
+        catch (Exception e)
         {
-
-            LoginMesssage = "Some bobo en la avenida";
+            Console.WriteLine(e.Message);
         }
+    }
 
+    private async Task StorageController()
+    {
+        
     }
 }

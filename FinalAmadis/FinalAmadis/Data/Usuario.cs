@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinalAmadis.Data
 {
     public class Usuario
     {
-        public string Email { get; set; }
-        public string Passw { get; set; }
-        public string Rol { get; set; }
+        [Required(ErrorMessage = "Correo requerido")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Debes indicar un email válido")]
+        public string Correo { get; set; }
+        
+        [Required(ErrorMessage = "Contraseña requerida")]
+        public string Contraseña { get; set; }
     }
     public class DatosUsuarios
     {
