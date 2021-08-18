@@ -13,7 +13,7 @@
                 <h3>Usuarios</h3>
             </div>
             <div class="col d-inline">
-                <button title="Nueva categoria" class="btn btn-success mr-2 d-inline float-right" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Usuario</button>
+                <button title="Nuevo Administrador" @onclick="Clear" class="btn btn-success mr-2 d-inline float-right" data-toggle="modal" data-target="#AgregarProducto"><i class="fas fa-plus-square"></i> Agregar Usuario</button>
             </div>
         </div>
     </div>
@@ -106,17 +106,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                
+                <h3>¿Esta seguro de eliminar la cuenta de "@user.Nombre"?</h3>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Si</button>
+                <button type="button" @onclick="HandleDelete" class="btn btn-danger" data-dismiss="modal">Si</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal agregar categotia-->
+<!-- Modal agregar usuario-->
 <div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -127,7 +127,32 @@
                 </button>
             </div>
             <div class="modal-body">
-               
+                <EditForm Model="@user" OnValidSubmit="@RegisterUser">
+                    <DataAnnotationsValidator />
+                    <div class="col-12 row mb-2">
+                        <InputText id="Correo" type="text" placeholder="Nombre" class="form-control" @bind-Value="user.Nombre" />
+                        <ValidationMessage For=@(() => user.Nombre) />
+                    </div>
+                    <div class="col-12 row mb-2">
+                        <InputText id="Correo" type="text" placeholder="Apellido" class="form-control" @bind-Value="user.Apellido" />
+                        <ValidationMessage For=@(() => user.Apellido) />
+                    </div>
+                    <div class="col-12 row mb-2">
+                        <InputDate id="Correo" type="date" placeholder="Fecha nacimiento" class="form-control" @bind-Value="fecha" />
+                    </div>
+                    <div class="col-12 row mb-2">
+                        <InputText id="Correo" type="email" placeholder="Direccion de correo" class="form-control" @bind-Value="user.Correo" />
+                        <ValidationMessage For=@(() => user.Correo) />
+                    </div>
+                    <div class="col-12 row mb-2">
+                        <InputText id="Correo" type="password" placeholder="Contraseña" class="form-control" @bind-Value="user.Contraseña" />
+                        <ValidationMessage For=@(() => user.Contraseña) />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </EditForm>
             </div>
         </div>
     </div>
@@ -137,10 +162,30 @@
     public dynamic Datos { get; set; }
     public dynamic Editable { get; set; }
     string jsonString;
+    public dynamic StorageData { get; set; }
+    private RegistroUsuario user = new RegistroUsuario();
+    DateTime fecha;
     Api consume = new Api();
     public string Buscar { get; set; }
 
     protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Usuarios");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
+    }
+    protected async Task Reload()
     {
         try
         {
@@ -173,14 +218,98 @@
             return true;
         return false;
     }
+    public async Task RegisterUser()
+    {
+        try
+        {
+            user.Rol = "Administrador";
+            user.Fecha_Nacimiento = fecha.ToString("dd/MM/yyyy");
+            jsonString = JsonConvert.SerializeObject(user);
+            string myUrl = "https://super-mini-market.herokuapp.com/api/Registro_Admins/" + StorageData.IdUsuario;
+            Uri url = new Uri(myUrl);
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    private async Task HandleDelete()
+    {
+        try
+        {
+            DeleteUser borrado = new DeleteUser();
+            borrado.IdAdmin = StorageData.IdUsuario;
+            borrado.IdUsuario = user.IdUsuario.ToString();
+
+            jsonString = JsonConvert.SerializeObject(borrado);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Borrar_Usuarios");
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
     public async Task<dynamic> data(dynamic select)
     {
 
         await Task.Delay(10);
         if (select != null)
         {
-
+            user.IdUsuario = select.IdUsuario;
+            user.Nombre = select.Nombre_Usuario;
         }
         return null;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
+                StorageData = JsonConvert.DeserializeObject(storage);
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    }
+    private async Task Mensajes()
+    {
+        if (Editable.ok == true)
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Su solicitud fue aprobada!");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+        }
+
+    }
+    public void Clear()
+    {
+        user = new RegistroUsuario();
     }
 }

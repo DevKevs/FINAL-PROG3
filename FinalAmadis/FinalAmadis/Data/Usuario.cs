@@ -26,11 +26,11 @@ namespace FinalAmadis.Data
     }
     public class RegistroUsuario 
     {
+        public int IdUsuario { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio...")]
         public string Nombre { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio...")]
         public string Apellido { get; set; }
-        [Required(ErrorMessage = "Este campo es obligatorio...")]
         public string Fecha_Nacimiento { get; set; }
         [Required(ErrorMessage = "Correo requerido")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Debes indicar un email válido")]
@@ -40,9 +40,9 @@ namespace FinalAmadis.Data
         public string Rol { get; set; }
     }
 
-    public class RootUsuario
+    public class DeleteUser
     {
-        public bool ok { get; set; }
-        public DatosUsuarios Datos_Usuarios { get; set; }
+        public string IdAdmin { get; set; }
+        public string IdUsuario { get; set; }
     }
 }

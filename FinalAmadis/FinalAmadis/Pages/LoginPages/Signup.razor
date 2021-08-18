@@ -1,6 +1,9 @@
 ﻿@page "/Signup"
 @inject NavigationManager NavigationManager
 @using FinalAmadis.Data
+@using System.Net
+@using Newtonsoft.Json
+@inject IJSRuntime JSRuntime
 <center>
     <div class="col-8 card">
         <div class="col-12 row">
@@ -23,18 +26,17 @@
                         <br />
                     </div>
                     <div class="col-12 row">
-                        <InputText id="Correo" type="email" placeholder="Nombre" class="form-control" @bind-Value="user.Nombre" />
+                        <InputText id="Correo" type="text" placeholder="Nombre" class="form-control" @bind-Value="user.Nombre" />
                         <ValidationMessage For=@(() => user.Nombre) />
                     </div>
                     <br />
                     <div class="col-12 row">
-                        <InputText id="Correo" type="email" placeholder="Apellido" class="form-control" @bind-Value="user.Apellido" />
+                        <InputText id="Correo" type="text" placeholder="Apellido" class="form-control" @bind-Value="user.Apellido" />
                         <ValidationMessage For=@(() => user.Apellido) />
                     </div>
                     <br />
                     <div class="col-12 row">
-                        <InputText id="Correo" type="email" placeholder="Fecha nacimiento" class="form-control" @bind-Value="user.Fecha_Nacimiento" />
-                        <ValidationMessage For=@(() => user.Fecha_Nacimiento) />
+                        <InputDate id="Correo" type="date" placeholder="Fecha nacimiento" class="form-control" @bind-Value="fecha" />
                     </div>
                     <br />
                     <div class="col-12 row">
@@ -43,7 +45,7 @@
                     </div>
                     <br />
                     <div class="col-12 row">
-                        <InputText id="Correo" type="email" placeholder="Contraseña" class="form-control" @bind-Value="user.Contraseña" />
+                        <InputText id="Correo" type="password" placeholder="Contraseña" class="form-control" @bind-Value="user.Contraseña" />
                         <ValidationMessage For=@(() => user.Contraseña) />
                     </div>
                     <br />
@@ -60,12 +62,45 @@
         </div>
     </div>
 </center>
-
+<label>@user.Fecha_Nacimiento</label>
 @code {
     private RegistroUsuario user = new RegistroUsuario();
     string LoginMesssage;
+    DateTime fecha;
+    public dynamic Editable { get; set; }
+    string jsonString;
     private async Task RegisterUser()
     {
+        try
+        {
+            user.Rol = "Cliente";
+            user.Fecha_Nacimiento = fecha.ToString("dd/MM/yyyy");
+            jsonString = JsonConvert.SerializeObject(user);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Registro_Usuarios");
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                Mensajes();
+                NavigationManager.NavigateTo("/");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    private async Task Mensajes()
+    {
+        if (Editable.ok == true)
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Registro exitoso!");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+        }
 
     }
 }
