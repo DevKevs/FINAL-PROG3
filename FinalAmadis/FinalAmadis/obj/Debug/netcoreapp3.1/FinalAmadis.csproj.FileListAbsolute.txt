@@ -296,3 +296,5 @@ C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\Slider.razor.g.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Slider.razor.g.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.csprojAssemblyReference.cache
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\Clientes.razor.g.cs
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Clientes.razor.g.cs

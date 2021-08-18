@@ -24,6 +24,21 @@ namespace FinalAmadis.Data
         public string Rol { get; set; }
         public string Token { get; set; }
     }
+    public class RegistroUsuario 
+    {
+        [Required(ErrorMessage = "Este campo es obligatorio...")]
+        public string Nombre { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio...")]
+        public string Apellido { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio...")]
+        public string Fecha_Nacimiento { get; set; }
+        [Required(ErrorMessage = "Correo requerido")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Debes indicar un email válido")]
+        public string Correo { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio...")]
+        public string Contraseña { get; set; }
+        public string Rol { get; set; }
+    }
 
     public class RootUsuario
     {

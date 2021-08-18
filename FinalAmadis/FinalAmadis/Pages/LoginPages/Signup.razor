@@ -23,33 +23,34 @@
                         <br />
                     </div>
                     <div class="col-12 row">
-                        <input class="form-control col-12" placeholder="Nombre" />
+                        <InputText id="Correo" type="email" placeholder="Nombre" class="form-control" @bind-Value="user.Nombre" />
+                        <ValidationMessage For=@(() => user.Nombre) />
                     </div>
                     <br />
                     <div class="col-12 row">
-                        <input class="form-control col-12" placeholder="Apellido" />
+                        <InputText id="Correo" type="email" placeholder="Apellido" class="form-control" @bind-Value="user.Apellido" />
+                        <ValidationMessage For=@(() => user.Apellido) />
                     </div>
                     <br />
                     <div class="col-12 row">
-                        <input class="form-control col-12" placeholder="Fecha nacimiento" />
+                        <InputText id="Correo" type="email" placeholder="Fecha nacimiento" class="form-control" @bind-Value="user.Fecha_Nacimiento" />
+                        <ValidationMessage For=@(() => user.Fecha_Nacimiento) />
                     </div>
                     <br />
                     <div class="col-12 row">
-                        <input class="form-control col-12" placeholder="Direccion de correo" />
+                        <InputText id="Correo" type="email" placeholder="Direccion de correo" class="form-control" @bind-Value="user.Correo" />
+                        <ValidationMessage For=@(() => user.Correo) />
                     </div>
                     <br />
                     <div class="col-12 row">
-                        <input type="password" class="form-control col-12" placeholder="Contraseña" />
+                        <InputText id="Correo" type="email" placeholder="Contraseña" class="form-control" @bind-Value="user.Contraseña" />
+                        <ValidationMessage For=@(() => user.Contraseña) />
                     </div>
                     <br />
                     <div class="col-12 row">
                         <span class="col-12"></span>
                         <input type="submit" class="form-control col-6 btn btn-primary" value="Registrarse" />
                         <a href="/" class="col-6">Log in</a>
-                    </div>
-                    <br />
-                    <div class="col-12 row" style="text-align:left; font-weight:bold">
-                        <span class="col-12">@LoginMesssage</span>
                     </div>
                 </EditForm>
             </div>
@@ -61,9 +62,9 @@
 </center>
 
 @code {
-    private Usuario user = new Usuario();
+    private RegistroUsuario user = new RegistroUsuario();
     string LoginMesssage;
-    private void RegisterUser()
+    private async Task RegisterUser()
     {
 
     }
