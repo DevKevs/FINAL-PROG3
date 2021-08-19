@@ -5,20 +5,34 @@
 <AdminNavBar/>
 <!-- Page Content  -->
 <div id="contentt">
-    <nav id="navAdmin" class="navbar navbar-expand-lg navbar-light bg-light" style="position: -webkit-sticky; position: sticky; top: 0; z-index: 999;">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/admin">Fusion Market</a>
-                    </li>
-                    <li class="nav-item"><a href="/MiAdmin" class="nav-link">@if(StorageData != null){<h6>@StorageData.Nombre  @StorageData.Apellido <i class="fas fa-user-circle"></i></h6> }</a></li>
-                </ul>
+    <div class="container-fluid">
+        <nav id="navAdmin" class="navbar navbar-expand-lg navbar-light bg-light" style="position: -webkit-sticky; position: sticky; top: 0; z-index: 999;">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/admin">Fusion Market</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/MiAdmin" class="nav-link">
+                                @if (StorageData != null)
+                                {
+                                    <h6>
+                                        @StorageData.Nombre @StorageData.Apellido <i class="fas fa-user-circle"></i>
+                                    </h6>
+                                }
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    @Body
+        </nav>
+    </div>
+    <div class="container">
+        @Body
+    </div>
 </div>
+
 
 @code{
     public dynamic StorageData { get; set; }

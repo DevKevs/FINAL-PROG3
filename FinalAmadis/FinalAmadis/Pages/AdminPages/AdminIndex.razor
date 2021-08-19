@@ -11,61 +11,61 @@
 
 @if (Datos != null)
 {
-    <div class="container">
-        <div class="row">
-                <div class="col-12 col-sm-6 col-md-8">
-                    <div class="card" >
-                        <div class="card-header " style="background-color: #fff">
-                            <h4>Pedidos en curso</h4>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-dark table-borderless">
-                                <thead>
-                                <tr>
-                                    <th>Cliente</th>
-                                    <th>Telefono</th>
-                                    <th>Estado</th>
-                                    <th class="text-center">Acciones</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Juan Perez</td>
-                                    <td>809-558-3221</td>
-                                    <td>En curso</td>
-                                    <td class="d-flex justify-content-center">
-                                        <button title="Editar" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-8">
+            <div class="card" >
+                <div class="card-header" style="background-color: #fff">
+                    <h4>Pedidos en curso</h4>
                 </div>
-                <div class="col-6 col-md-4 p-0">
-                    <div class="card">
-                        <div class="card-header" style="background-color: #fff">
-                            <h4>Actividad</h4>
-                        </div>
-                        <div class="card-body p-0 m-0 mb-2">
-                            <Chart Config="_config"></Chart>
-                        </div>
+                <div class="card-body">
+                    <table class="table table-dark table-borderless">
+                        <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Telefono</th>
+                            <th>Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Juan Perez</td>
+                            <td>809-558-3221</td>
+                            <td>En curso</td>
+                            <td class="d-flex justify-content-center">
+                                <button title="Editar" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4">
+            <div class="card">
+                <div class="card-header" style="background-color: #fff">
+                    <h4>Actividad</h4>
+                </div>
+                <div class="card-body ">
+                    <Chart Config="_config"></Chart>
+                </div>
+            </div>
+            <div class="col p-0">
+                <div class="card mt-1">
+                    <div class="card-header" style="background-color: #fff">
+                        <h4>Disponible</h4>
                     </div>
-                    <div class="col p-0">
-                        <div class="card mt-1">
-                            <div class="card-header" style="background-color: #fff">
-                                <h4>Disponible</h4>
-                            </div>
-                            <div class="card-body">
-                                disponible
-                            </div>
-                        </div>
+                    <div class="card-body">
+                        disponible
                     </div>
                 </div>
             </div>
+        </div>
     </div>
+   
     
 }
 @if (Datos == null)

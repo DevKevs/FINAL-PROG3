@@ -167,7 +167,7 @@ using Newtonsoft.Json;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 23 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Shared\AdminLayout.razor"
+#line 37 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Shared\AdminLayout.razor"
       
     public dynamic StorageData { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
