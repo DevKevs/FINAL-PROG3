@@ -76,8 +76,7 @@
             }
         </div>
     </div>
-</div>
-
+</div>>
 <!-- Modal editar categria-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -89,7 +88,16 @@
                 </button>
             </div>
             <div class="modal-body">
-               
+                <h4>Cambiar el rol a "@user.Correo"</h4>
+                <select id="Drop" @bind="Rol" class="form-control">
+                    <option value="00" disabled>Seleccione el Rol</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Cliente">Cliente</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit"@onclick="Handleupdate" class="btn btn-primary">Guardar Cambios</button>
             </div>
         </div>
     </div>
@@ -162,6 +170,7 @@
     public dynamic Datos { get; set; }
     public dynamic Editable { get; set; }
     string jsonString;
+    string Rol;
     public dynamic StorageData { get; set; }
     private RegistroUsuario user = new RegistroUsuario();
     DateTime fecha;
@@ -242,6 +251,31 @@
             Console.WriteLine(e.Message);
         }
     }
+    public async Task Handleupdate()
+    {
+        try
+        {
+            DeleteUser modificar = new DeleteUser();
+            modificar.IdAdmin = StorageData.IdUsuario;
+            modificar.IdUsuario = user.IdUsuario.ToString();
+            jsonString = JsonConvert.SerializeObject(modificar);
+            string myUrl = "https://super-mini-market.herokuapp.com/api/Modificar_Usuarios/" + Rol;
+            Uri url = new Uri(myUrl);
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                Datos = null;
+                await Reload();
+                Mensajes();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
     private async Task HandleDelete()
     {
         try
@@ -275,6 +309,7 @@
         {
             user.IdUsuario = select.IdUsuario;
             user.Nombre = select.Nombre_Usuario;
+            user.Correo = select.Correo;
         }
         return null;
     }
