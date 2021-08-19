@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="ChartJs.Blazor.Fork" Version="2.0.2" />
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
     <PackageReference Include="MatBlazor" Version="2.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Radzen.Blazor" Version="3.9.2" />

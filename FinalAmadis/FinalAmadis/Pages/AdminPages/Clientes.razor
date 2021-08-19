@@ -1,10 +1,13 @@
 ﻿@page "/Clientes"
 @using FinalAmadis.Data
 @using System.Net
+@using System.IO
 @using Newtonsoft.Json
 @using Microsoft.Extensions.Logging
 @inject ILogger<Index> Logger
 @inject IJSRuntime JSRuntime
+@using CsvHelper
+
 <div class="card">
     <div class="card-header" style="background-color: #fff">
         <div class="row">
@@ -14,7 +17,7 @@
                         <h3 class="d-inline">Cumpleaños por mes</h3>
                     </div>
                     <div class="col-4">
-                        <select id="Drop"  @onchange="HandleSubmit" class="form-control">
+                        <select id="Drop" @onchange="HandleSubmit" class="form-control">
                             <option value="00" disabled>Seleccione</option>
                             <option value="01">Enero</option>
                             <option value="02">Febrero</option>
@@ -33,7 +36,7 @@
                 </div>
             </div>
             <div class="col d-inline">
-                <button title="Exportar" class="btn btn-primary mr-2 d-inline float-right"><i class="fas fa-download"></i> Exportar</button>
+                <button title="Exportar" @onclick="ExportarCSV" class="btn btn-primary mr-2 d-inline float-right"><i class="fas fa-download"></i> Exportar</button>
                 <button title="Recargar" @onclick="Reload" class="btn btn-primary mr-2 d-inline float-right"><i class="fas fa-sync-alt"></i></button>
             </div>
         </div>
@@ -64,7 +67,7 @@
         @if (alerta)
         {
             <div class="alert alert-danger text-center" role="alert">
-              No se encontraron registros...
+                No se encontraron registros...
             </div>
         }
         @if (Datos == null)
@@ -78,6 +81,7 @@
     </div>
 </div>
 @code {
+    List<DatosUsuarios> personas = new List<DatosUsuarios>();
     public dynamic Datos { get; set; }
     string mes = "00";
     bool alerta = false;
@@ -131,4 +135,30 @@
             Console.WriteLine(ex.Message);
         }
     }
+
+    private async Task ExportarCSV()
+    {
+        personas.Clear();
+        foreach (var i in Datos)
+        {
+            personas.Add(new DatosUsuarios() { IdUsuario = i.IdUsuario, Nombre = i.Nombre_Usuario, Apellido = i.Apellido_Usuario, Fecha_Nacimiento = i.Fecha_Nacimiento, Correo = i.Correo });
+        }
+
+        using (var memoryStream = new MemoryStream())
+        {
+            using (var writer = new StreamWriter(memoryStream))
+            {
+                using (var csv = new CsvWriter(writer))
+                {
+                    csv.WriteRecords(personas);
+                }
+
+                var arr = memoryStream.ToArray();
+                await JSRuntime.InvokeAsync<object>("saveAsFile",
+                "personas.csv",
+                Convert.ToBase64String(arr));
+            }
+        }
+    }
+
 }
