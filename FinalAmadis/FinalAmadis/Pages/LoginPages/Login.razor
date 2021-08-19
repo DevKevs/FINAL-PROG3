@@ -83,7 +83,7 @@
                     }
                     else if(Editable.Datos_Usuarios.Rol == "Cliente")
                     {
-                        NavigationManager.NavigateTo("/index");
+                        NavigationManager.NavigateTo("/Tienda");
                         await JSRuntime.InvokeVoidAsync("storage", $"{Editable.Datos_Usuarios}");
                     }
                 }

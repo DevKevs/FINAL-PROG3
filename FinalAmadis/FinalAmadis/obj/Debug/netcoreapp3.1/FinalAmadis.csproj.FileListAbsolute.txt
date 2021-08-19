@@ -303,3 +303,16 @@ C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Shared\MainLayout.razor.g.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Shared\NavMenu.razor.g.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\_Imports.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\ChartJs.Blazor.dll
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\Radzen.Blazor.dll
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\System.Linq.Dynamic.Core.dll
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\Clientes.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\Pedidos.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\Slider.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Clientes.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Pedidos.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\Slider.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\MiCuenta.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\MiCuenta.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\AdminPages\MiAdmin.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\AdminPages\MiAdmin.razor.g.cs
