@@ -1,22 +1,24 @@
 ﻿@using Newtonsoft.Json
 @using System.Net
+@inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 <section class="ftco-section" style="position: -webkit-sticky; position: sticky; top: 0; z-index: 999;">
-    
+
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar">
             <div class="container">
                 <a class="navbar-brand" href="/Tienda">Fusion Market | Mercado</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="fa fa-bars"></span> 
+                    <span class="fa fa-bars"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="ftco-nav">
                     <ul class="navbar-nav ml-auto mr-md-3" style="justify-content: space-between;">
                         <li class="nav-item"><a href="/Tienda" class="nav-link">Pedidos <i class="fas fa-box-open"></i></a></li>
                         <li class="nav-item"><a href="/Tienda/Carrito" class="nav-link">Carrito <i class="fas fa-shopping-cart"></i></a></li>
-                        
-                        <li class="nav-item"><a href="/Tienda/MiCuenta" class="nav-link">@if(StorageData != null){<h6>@StorageData.Nombre  @StorageData.Apellido <i class="fas fa-user-circle"></i></h6> }</a></li>
-                        <li class="nav-item"><a href="/" class="nav-link">Cerrar sesión <i class="fas fa-sign-out-alt"></i></a></li>
+
+                        <li class="nav-item"><a href="/Tienda/MiCuenta" class="nav-link">@if (StorageData != null)
+                        {<h6>@StorageData.Nombre  @StorageData.Apellido <i class="fas fa-user-circle"></i></h6>}</a></li>
+                        <li class="nav-item"><a href="/" @onclick="CerrarSesion" class="nav-link">Cerrar sesión <i class="fas fa-sign-out-alt"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -28,8 +30,8 @@
 
 @code{
     public dynamic StorageData { get; set; } = null;
-    
-    
+    public dynamic Salir { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -47,6 +49,20 @@
             }
         }
     }
-    
+    async Task CerrarSesion()
+    {
+        string myUrl = "https://super-mini-market.herokuapp.com/api/CerrarSesion/" + StorageData.IdUsuario;
+        Uri url = new Uri(myUrl);
+        WebClient client = new WebClient();
+        var data = await client.UploadStringTaskAsync(url, "");
+        Salir = JsonConvert.DeserializeObject(data);
+
+        if (Salir != null)
+        {
+            await Task.Delay(1000);
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
 }
 

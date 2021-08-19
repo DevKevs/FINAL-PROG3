@@ -789,28 +789,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrador\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\gt\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrador\\OneDrive\\Escritorio\\finalAmadis\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
+      "projectUniqueName": "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
       "projectName": "FinalAmadis",
-      "projectPath": "C:\\Users\\Administrador\\OneDrive\\Escritorio\\finalAmadis\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
-      "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrador\\OneDrive\\Escritorio\\finalAmadis\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\obj\\",
+      "projectPath": "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
+      "packagesPath": "C:\\Users\\gt\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Administrador\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\gt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -821,7 +813,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -833,7 +824,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "ChartJs.Blazor.Fork": {
             "target": "Package",
@@ -878,7 +868,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

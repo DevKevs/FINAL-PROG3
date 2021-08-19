@@ -419,3 +419,4 @@ C:\Users\Administrador\OneDrive\Escritorio\finalAmadis\FINAL-PROG3\FinalAmadis\F
 C:\Users\Administrador\OneDrive\Escritorio\finalAmadis\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.csproj.CopyComplete
 C:\Users\Administrador\OneDrive\Escritorio\finalAmadis\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.genruntimeconfig.cache
 C:\Users\Administrador\OneDrive\Escritorio\finalAmadis\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\CsvHelper.dll
+C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\CsvHelper.dll

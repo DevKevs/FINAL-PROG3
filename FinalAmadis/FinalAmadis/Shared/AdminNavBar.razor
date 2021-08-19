@@ -1,7 +1,8 @@
 ﻿@using Newtonsoft.Json
+@using System.Net
+@inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
-
-        <!-- Sidebar  -->
+<!-- Sidebar  -->
 <div class="sidebar">
     <nav id="sidebar">
         <div class="sidebar-header">
@@ -10,52 +11,52 @@
                 <h3>@StorageData.Rol</h3>
             }
         </div>
-            <div class="container">
-                <ul class="list-unstyled components">
-                    <p>Fusion Market</p>
-                    <li>
-                        <a href="/admin">Home</a>
-                    </li>
-                    <li>
-                        <a href="/Productos">Productos</a>
-                    </li>
-                    <li>
-                        <a href="/Categorias">Categorías</a>
-                    </li>
-                    <li>
-                        <a href="/Pedidos">Pedidos</a>
-                    </li>
-                    <li>
-                        <a href="/Clientes">Clientes</a>
-                    </li>
-                    <li>
-                        <a href="/Slider">Slider</a>
-                    </li>
-                    @if (StorageData != null)
-                    {
-                        if (StorageData.Rol == "SuperAdmin")
-                        {
-                            <li>
-                                <a href="/Usuarios">Usuarios</a>
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
-            
-
-            <ul class="list-unstyled CTAs">
+        <div class="container">
+            <ul class="list-unstyled components">
+                <p>Fusion Market</p>
                 <li>
-                    <a href="/" class="download">Cerrar sesión</a>
+                    <a href="/admin">Inicio</a>
                 </li>
-               
+                <li>
+                    <a href="/Productos">Productos</a>
+                </li>
+                <li>
+                    <a href="/Categorias">Categorías</a>
+                </li>
+                <li>
+                    <a href="/Pedidos">Pedidos</a>
+                </li>
+                <li>
+                    <a href="/Clientes">Clientes</a>
+                </li>
+                <li>
+                    <a href="/Slider">Slider</a>
+                </li>
+                @if (StorageData != null)
+                {
+                    if (StorageData.Rol == "SuperAdmin")
+                    {
+                        <li>
+                            <a href="/Usuarios">Usuarios</a>
+                        </li>
+                    }
+                }
             </ul>
-        </nav>
+        </div>
+
+
+        <ul class="list-unstyled CTAs">
+            <li>
+                <a href="/" @onclick="CerrarSesion" class="download">Cerrar sesión</a>
+            </li>
+
+        </ul>
+    </nav>
 
 </div>
 @code{
     public dynamic StorageData { get; set; }
-    
+    public dynamic Salir { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -73,8 +74,22 @@
             }
         }
     }
-}        
-        
- 
+    async Task CerrarSesion()
+    {
+        string myUrl = "https://super-mini-market.herokuapp.com/api/CerrarSesion/" + StorageData.IdUsuario;
+        Uri url = new Uri(myUrl);
+        WebClient client = new WebClient();
+        var data = await client.UploadStringTaskAsync(url, "");
+        Salir = JsonConvert.DeserializeObject(data);
+
+        if (Salir != null)
+        {
+            await Task.Delay(1000);
+            NavigationManager.NavigateTo("/");
+        }
+    }
+}
+
+
 
 

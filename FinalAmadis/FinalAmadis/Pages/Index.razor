@@ -6,9 +6,9 @@
 @inject IJSRuntime JSRuntime
 
 <style>
-p{
-    color: black;
-}
+    p {
+        color: black;
+    }
 </style>
 <div class="container-fluid mt-2">
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
@@ -36,10 +36,9 @@ p{
 
                     var itemDinamico = cont++ == 0 ? "carousel-item active" : "carousel-item";
                     <div class="@itemDinamico">
-                        <img height="400" src="@i.Recurso" class="d-block w-100" alt="..." style="border-radius: 5px;">
+                        <img height="300" src="@i.Recurso" class="d-block w-100" alt="..." style="border-radius: 5px;">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>@i.Titulo</h5>
-                            @*<p>Some representative placeholder content for the second slide.</p>*@
                         </div>
                     </div>
                 }
@@ -47,11 +46,11 @@ p{
             }
             else
             {
-        <div class="d-flex justify-content-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden"></span>
-            </div>
-        </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                </div>
             }
         </div>
         <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
@@ -63,6 +62,27 @@ p{
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-sm">
+            <select id="Drop" name="categorias" @onchange="Filter" class="form-control w-25">
+                <option value="Todos" selected>Todos</option>
+                @if (Drop != null)
+                {
+                    @foreach (var i in Drop)
+                    {
+                        <option value="@i.Nombre_Categoria"> @i.Nombre_Categoria</option>
+                    }
+                }
+                else
+                {
+                    <option value="" disabled selected>Cargando...</option>
+                }
+            </select>
+        </div>
+    </div>
+
     <div class="row mt-4 mb-5">
         @if (Datos != null)
         {
@@ -94,7 +114,12 @@ p{
         </div>
     </div>
 }
-
+@if (alerta)
+{
+    <div class="alert alert-danger text-center" role="alert">
+        No se encontraron registros...
+    </div>
+}
 <div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -147,6 +172,9 @@ p{
 
 @code{
     public dynamic Datos { get; set; }
+    public dynamic Drop { get; set; }
+    string filter;
+    bool alerta = false;
     public dynamic sliderData { get; set; }
     public dynamic StorageData { get; set; }
     RootProductos productos = new RootProductos();
@@ -161,6 +189,52 @@ p{
             var data = await client.DownloadStringTaskAsync(url);
             Datos = JsonConvert.DeserializeObject(data);
             await Slidermanagement();
+            await DropItems();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    protected async Task Reload()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccionar_Todo");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+            await Slidermanagement();
+            await DropItems();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    async Task Filter(ChangeEventArgs e)
+    {
+        try
+        {
+            if (e.Value.ToString() == "Todos")
+            {
+                await Reload();
+            }
+            else
+            {
+                alerta = false;
+                Datos = null;
+                Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccion_Producto_Categoria/" + e.Value.ToString());
+                WebClient client = new WebClient();
+                var data = await client.DownloadStringTaskAsync(url);
+                Datos = JsonConvert.DeserializeObject(data);
+                //if (Datos.ok == false)
+                //{
+                //    alerta = true;
+                //}
+            }
         }
         catch (Exception)
         {
@@ -215,5 +289,11 @@ p{
             throw;
         }
     }
-
+    async Task DropItems()
+    {
+        Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Mostrar_Todas_Categoria");
+        WebClient client = new WebClient();
+        var data = await client.DownloadStringTaskAsync(url);
+        Drop = JsonConvert.DeserializeObject(data);
+    }
 }
