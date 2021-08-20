@@ -1,54 +1,66 @@
 ﻿@page "/Tienda/Pedidos"
+@using FinalAmadis.Data
+@using System.Net
+@using Newtonsoft.Json
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
 <style>
-    p{
+    p {
         color: black;
     }
 </style>
 
-    <div class="page-content page-container" id="page-content">
-    <div class="padding d-flex justify-content-center">
-        <div class="row container d-flex justify-content-center">
-            <div class="col">
-                <div class="card user-card-full">
-                    <div class="row m-l-0 m-r-0">
-                        <div class="col-sm-4 bg-c-lite-green user-profile">
-                            <div class="card-block text-center text-white">
-                                <div class="m-b-25"> <img src="/img/Freeshipping-amico.svg" style="width: 50%;" class="img-radius" alt="User-Profile-Image"> </div>
-                                <h6 class="f-w-600"></h6>
-                                <h5 style="font-size: 2em">Pedido</h5> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="card-block">
-                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Información de pedido</h6>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Nombre de cliente</p>
-                                        <h6 class="text-muted f-w-400"> Fulano</h6>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Telefono</p>
-                                        <h6 class="text-muted f-w-400">125125125</h6>
+<div class="page-content page-container" id="page-content">
+    @if (Datos != null)
+    {
+        foreach (var i in Datos.data)
+        {
+            <div class="padding d-flex justify-content-center">
+                <div class="row container d-flex justify-content-center">
+                    <div class="col">
+                        <div class="card user-card-full">
+                            <div class="row m-l-0 m-r-0">
+                                <div class="col-sm-4 bg-c-lite-green user-profile">
+                                    <div class="card-block text-center text-white">
+                                        <div class="m-b-25"> <img src="/img/Freeshipping-amico.svg" style="width: 50%;" class="img-radius" alt="User-Profile-Image"> </div>
+                                        <h6 class="f-w-600"></h6>
+                                        <h5 style="font-size: 2em">Pedido</h5> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                     </div>
                                 </div>
-                                <div class="row mt-2">
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Total</p>
-                                        <h6 class="text-muted f-w-400"> 124018294018208491</h6>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Estado</p>
-                                        <h6 class="text-muted f-w-400">En curso</h6>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Nombre del producto</p>
-                                        <h6 class="text-muted f-w-400"> Pan</h6>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Detalle</p>
-                                        <h6 class="text-muted f-w-400"> es pan</h6>
+                                <div class="col-sm-8">
+                                    <div class="card-block">
+                                        <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Información de pedido</h6>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p class="m-b-10 f-w-600">Nombre de cliente</p>
+                                                <h6 class="text-muted f-w-400"> @i.Nombre @i.Apellido</h6>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="m-b-10 f-w-600">Telefono</p>
+                                                <h6 class="text-muted f-w-400">@i.Telefono</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-sm-6">
+                                                <p class="m-b-10 f-w-600">Total</p>
+                                                <h6 class="text-muted f-w-400"> @i.Total RD$</h6>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="m-b-10 f-w-600">Estado</p>
+                                                <h6 class="text-muted f-w-400">@i.Estado</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-sm-6">
+                                                <p class="m-b-10 f-w-600">correo de contacto</p>
+                                                <h6 class="text-muted f-w-400"> @i.Correo</h6>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="m-b-10 f-w-600">Detalle</p>
+                                                <h6 class="text-muted f-w-400"> @i.Direccion</h6>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -56,12 +68,47 @@
                     </div>
                 </div>
             </div>
+        }
+    }
+    @if (Datos == null)
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden"></span>
+            </div>
         </div>
-    </div>
+    }
+
 </div>
 
 
 @code {
-   
+    public dynamic Datos { get; set; }
+    public dynamic Salir { get; set; }
+    public dynamic StorageData { get; set; }
+    string IdProducto;
+    Api API = new Api();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
+                StorageData = JsonConvert.DeserializeObject(storage);
+                string myUrl = "https://super-mini-market.herokuapp.com/api/Seleccionar_Pedidos_Usuario/" + StorageData.IdUsuario;
+                Uri url = new Uri(myUrl);
+                WebClient client = new WebClient();
+                var data = await client.DownloadStringTaskAsync(url);
+                Datos = JsonConvert.DeserializeObject(data);
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    }
 }
-  
+
