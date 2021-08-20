@@ -29,16 +29,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Juan Perez</td>
-                            <td>809-558-3221</td>
-                            <td>En curso</td>
-                            <td class="d-flex justify-content-center">
-                                <button title="Editar" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            @if (Pedidos != null)
+                            {
+                                @foreach (var prov in Pedidos.data)
+                                {
+                                    <tr>
+                                        <td>@prov.Nombre @prov.Apellido</td>
+                                        <td>@prov.Telefono</td>
+                                        <td>@prov.Estado</td>
+                                        <td>
+                                            <button title="Editar" @onclick="@(async()=> await data(prov))" class="btn btn-success mb-2" data-toggle="modal" data-target="#exampleModal2"><i class="fas fa-edit"></i></button>
+                                            <button title="ver producto" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#exampleModal3" class="btn btn-info mb-2"><i class="fas fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -80,8 +85,10 @@
 @code{
 
     public dynamic Datos { get; set; }
+    public dynamic Pedidos { get; set; }
     public dynamic Editable { get; set; }
     string jsonString;
+    Pago pedidos = new Pago();
     Api consume = new Api();
     private PieConfig _config;
     public string Buscar { get; set; }
@@ -94,6 +101,7 @@
             WebClient client = new WebClient();
             var data = await client.DownloadStringTaskAsync(url);
             Datos = JsonConvert.DeserializeObject(data);
+            await LoadPedidos();
             LoadChart();
         }
         catch (Exception)
@@ -133,5 +141,34 @@
         };
 
         _config.Data.Datasets.Add(dataset);
+    }
+    async Task LoadPedidos()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccionar_Pedidos");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Pedidos = JsonConvert.DeserializeObject(data);
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    public async Task<dynamic> data(dynamic select)
+    {
+
+        await Task.Delay(10);
+        if (select != null)
+        {
+            pedidos.IdUsuario = select.IdUsuario;
+            pedidos.Estado = select.Estado;
+            pedidos.Longitud = select.Longitud;
+            pedidos.Latitud = select.Latitud;
+        }
+        return null;
     }
 }

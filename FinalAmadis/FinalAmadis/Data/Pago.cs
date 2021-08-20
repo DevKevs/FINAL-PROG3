@@ -30,6 +30,7 @@ namespace FinalAmadis.Data
         public string No_Calle { get; set; }
         [Required(ErrorMessage = "El campo numero de la casa es requerido")]
         public string No_Casa { get; set; }
+        public string Estado { get; set; }
 
     }
 }

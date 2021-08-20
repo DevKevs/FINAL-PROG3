@@ -25,14 +25,14 @@
                         <div class="price ml-2"><span class="mr-1">precio</span><i class="fa fa-angle-down"></i></div>
                     </div>
                 </div>
-                @if (Datos != null)
+                @if (Datos != null && Datos.ok == true)
                 {
-                    foreach (var i in Datos)
+                    foreach (var i in Datos.data)
                     {
 
                         <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
                             <div class="d-flex flex-row">
-                                <img class="rounded" src="@i.Foto" width="40">
+                                <img class="rounded img-fluid" src="@i.Foto" width="50" height="50">
                                 <div class="ml-2"><span class="font-weight-bold d-block">@i.Nombre_producto</span><span class="spec">@i.Descripcion</span></div>
                             </div>
                             <div class="d-flex flex-row align-items-center"><span class="d-block">@i.Cantidad</span><span class="d-block ml-5 font-weight-bold">$@i.Suma_total</span><i style="cursor: pointer; color: red;" @onclick="@(async () => await data(i))" class="fa fa-trash-o ml-3 text-red-50"></i></div>
@@ -49,7 +49,12 @@
                         </div>
                     </div>
                 }
-
+                @if (alerta)
+                {
+                    <div class="alert alert-danger text-center" role="alert">
+                        No tiene productos en su carrito...
+                    </div>
+                }
             </div>
         </div>
         <div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="col-md-4 ">
@@ -58,43 +63,30 @@
                 <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
                 <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
                 <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
-                <div><label class="credit-card-label">Nombre del propietario</label><input type="text" class="form-control credit-inputs" placeholder="Nombre"></div>
-                <div><label class="credit-card-label">Numero de tarjeta</label><input type="text" class="form-control credit-inputs" placeholder="0000 0000 0000 0000"></div>
-                <div class="row">
-                    <div class="col-md-6"><label class="credit-card-label">Fecha</label><input type="text" class="form-control credit-inputs" placeholder="12/24"></div>
-                    <div class="col-md-6"><label class="credit-card-label">CVV</label><input type="text" class="form-control credit-inputs" placeholder="342"></div>
+                <div class="col-12">
+                    <div id="smart-button-container">
+                        <div style="text-align: center"><label for="description"> </label><input type="text" class="form-control" name="descriptionInput" id="description" maxlength="127" value="Pago de productos" readonly></div>
+                        <p id="descriptionError" style="visibility: hidden; color:red; text-align: center;">Please enter a description</p>
+                        <div style="text-align: center"><label for="amount"> </label><input name="amountInput" class="form-control" type="number" id="amount"><span> $RD</span></div>
+                        <p id="priceLabelError" style="visibility: hidden; color:red; text-align: center;">Please enter a price</p>
+                        <div id="invoiceidDiv" style="text-align: center; display: none;"><label for="invoiceid"> </label><input name="invoiceid" class="form-control" maxlength="127" type="text" id="invoiceid" value=""></div>
+                        <p id="invoiceidError" style="visibility: hidden; color:red; text-align: center;">Please enter an Invoice ID</p>
+                        <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
+                    </div>
                 </div>
                 <hr class="line">
                 <div class="d-flex justify-content-between information"><span>Envío</span><span>$00.00</span></div>
-                <div class="d-flex justify-content-between information"><span>Total(Incl. taxes)</span><span>$@cantidad</span></div><button class="btn btn-info btn-block d-flex justify-content-between mt-3" data-toggle="modal" data-target="#staticBackdrop" type="button"><span>$@cantidad</span><span>Pagar <i class="fa fa-long-arrow-right ml-1"></i></span></button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid col-7">
-    <div class="card">
-        <div class="card-header" style="background-color: #fff">
-            <div class="row">
-                <div class="col d-inline">
-                    <h3>Pagar con Paypal</h3>
-                </div>
-                <div class="col d-inline">
-
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="col-12">
-                <div id="smart-button-container">
-                    <div style="text-align: center"><label for="description"> </label><input type="text" class="form-control" name="descriptionInput" id="description" maxlength="127" value=""></div>
-                    <p id="descriptionError" style="visibility: hidden; color:red; text-align: center;">Please enter a description</p>
-                    <div style="text-align: center"><label for="amount"> </label><input name="amountInput" class="form-control" type="number" id="amount" value=""><span> USD</span></div>
-                    <p id="priceLabelError" style="visibility: hidden; color:red; text-align: center;">Please enter a price</p>
-                    <div id="invoiceidDiv" style="text-align: center; display: none;"><label for="invoiceid"> </label><input name="invoiceid" class="form-control" maxlength="127" type="text" id="invoiceid" value=""></div>
-                    <p id="invoiceidError" style="visibility: hidden; color:red; text-align: center;">Please enter an Invoice ID</p>
-                    <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
-                </div>
+                @if (Datos != null)
+                {
+                    if (Datos.ok == true)
+                    {
+                        <div class="d-flex justify-content-between information"><span>Total(Incl. taxes)</span><span>$@cantidad</span></div><button class="btn btn-info btn-block d-flex justify-content-between mt-3" data-toggle="modal" data-target="#staticBackdrop" type="button"><span>$@cantidad</span><span>Pagar <i class="fa fa-long-arrow-right ml-1"></i></span></button>
+                    }
+                    else
+                    {
+                        <div class="d-flex justify-content-between information"><span>Total(Incl. taxes)</span><span>$@cantidad</span></div><button disabled class="btn btn-info btn-block d-flex justify-content-between mt-3" data-toggle="modal" data-target="#staticBackdrop" type="button"><span>$@cantidad</span><span>Pagar <i class="fa fa-long-arrow-right ml-1"></i></span></button>
+                    }
+                }
             </div>
         </div>
     </div>
@@ -217,6 +209,7 @@
     public dynamic B_LongLag { get; set; }
     public dynamic StorageData { get; set; }
     string IdProducto;
+    bool alerta = false;
     ExampleModel exampleModel = new ExampleModel();
     public Pago pagar = new Pago();
     int cantidad;
@@ -226,6 +219,13 @@
     protected override void OnInitialized()
     {
         B_Provincias = API.Get("http://provinciasrd.raydelto.org/provincias");
+        if (Datos != null)
+        {
+            if (Datos.ok == false)
+            {
+                alerta = true;
+            }
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -242,9 +242,16 @@
                 WebClient client = new WebClient();
                 var data = await client.DownloadStringTaskAsync(url);
                 Datos = JsonConvert.DeserializeObject(data);
-                foreach (var item in Datos)
+                if (Datos.ok != false)
                 {
-                    cantidad = cantidad + Convert.ToInt32(item.Suma_total);
+                    foreach (var item in Datos.data)
+                    {
+                        cantidad = cantidad + Convert.ToInt32(item.Suma_total);
+                    }
+                }
+                else
+                {
+                    alerta = true;
                 }
                 pagar.IdUsuario = StorageData.IdUsuario;
                 pagar.Total = cantidad.ToString();
@@ -267,6 +274,10 @@
             WebClient client = new WebClient();
             var data = await client.DownloadStringTaskAsync(url);
             Datos = JsonConvert.DeserializeObject(data);
+            if (Datos.ok == false)
+            {
+                alerta = true;
+            }
         }
         catch (Exception)
         {

@@ -17,6 +17,7 @@
                         <li class="nav-item"><a href="/Tienda/Carrito" class="nav-link">Carrito <i class="fas fa-shopping-cart"></i>@if (myCarrito != null) {<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">@myCarrito.Cantidad</span>}</a></li>
                         <li class="nav-item"><a href="/Tienda/MiCuenta" class="nav-link">@if (StorageData != null)
                         {<h6 class="ml-3">@StorageData.Nombre  @StorageData.Apellido <i class="fas fa-user-circle"></i></h6>}</a></li>
+                        <li class="nav-item"><a href="/Tienda/About" class="nav-link">Acerca de <i class="fas fa-info-circle"></i></a></li>
                         <li class="nav-item"><a href="/" @onclick="CerrarSesion" class="nav-link">Cerrar sesión <i class="fas fa-sign-out-alt"></i></a></li>
                     </ul>
                 </div>

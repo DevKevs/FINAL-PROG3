@@ -26,52 +26,63 @@
         <table class="table table-dark table-borderless">
             <thead>
                 <tr>
-                    <th>Usuario</th>
-                    <th>Producto</th>
-                    <th>telefono</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
                     <th>Total</th>
                     <th>Direccion</th>
-                    <th>Longitud</th>
-                    <th>Latitud</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Juan Perez</td>
-                    <td>Iphone 11 256GB</td>
-                    <td>809-558-3221</td>
-                    <td>45,000</td>
-                    <td>Santo Domingo</td>
-                    <td>18.2525446</td>
-                    <td>-18.5856263</td>
-                    <td>Enviado</td>
-                    <td style="justify-content:space-between">
-                        <i style="cursor: pointer; color: red;" class="fa fa-trash-o mr-1 text-red-50" data-toggle="modal" data-target="#exampleModal3"></i>
-                        <i style="cursor: pointer; color: green;" class="fas fa-edit text-success-50" data-toggle="modal" data-target="#exampleModal2"></i>
-                        <i style="cursor: pointer; color: yellow;" class="fas fa-eye text-white-50" data-toggle="modal" data-target="#exampleModal1"></i>
-                    </td>
-                </tr>
+                @if (Datos != null)
+                {
+                    @foreach (var prov in Datos.data)
+                    {
+                        if (!IsVisible(prov))
+                            continue;
+                        <tr>
+                            <td>@prov.Nombre</td>
+                            <td>@prov.Apellido</td>
+                            <td>@prov.Correo</td>
+                            <td>@prov.Total $RD</td>
+                            <td style="width:125px;">@prov.Direccion</td>
+                            <td>@prov.Estado</td>
+                            <td>
+                                <button title="Editar" @onclick="@(async()=> await data(prov))" class="btn btn-success mb-2" data-toggle="modal" data-target="#exampleModal2"><i class="fas fa-edit"></i></button>
+                                <button title="ver producto" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#exampleModal3" class="btn btn-warning mb-2"><i class="fas fa-map-marked"></i></button>
+                                <button title="ver Detalle" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#exampleModal3" class="btn btn-info mb-2"><i class="fas fa-eye"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
-
     </div>
 </div>
 
 <!-- Modal ver pedidos-->
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ver pedido</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Pedidos totales</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <RadzenGoogleMap Style="height:400px;" Zoom="8" Center="@(new GoogleMapPosition() { Lat= 18.735693, Lng= -70.162651})">
-
+                    <Markers>
+                        @if (Datos != null)
+                        {
+                            @foreach (var i in Datos.data)
+                            {
+                                <RadzenGoogleMapMarker Title="Rep. Dom" Label="Pedido" Position="@(new GoogleMapPosition() {Lat= Convert.ToDouble(i.Latitud), Lng=Convert.ToDouble(i.Longitud) })" />
+                            }
+                        }
+                    </Markers>
                 </RadzenGoogleMap>
             </div>
             <div class="modal-footer">
@@ -100,22 +111,25 @@
         </div>
     </div>
 </div>
-<!-- Modal elimar pedido-->
+<!-- Modal ver 1 pedido-->
 <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar Orden</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Ver su pedido</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-
+                <RadzenGoogleMap Style="height:400px;" Zoom="8" Center="@(new GoogleMapPosition() { Lat= 18.735693, Lng= -70.162651})">
+                    <Markers>
+                      <RadzenGoogleMapMarker Title="Rep. Dom" Label="Pedido" Position="@(new GoogleMapPosition() {Lat= Convert.ToDouble(pedidos.Latitud), Lng=Convert.ToDouble(pedidos.Longitud) })" />   
+                    </Markers>
+                </RadzenGoogleMap>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Si</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -125,5 +139,49 @@
     public dynamic Editable { get; set; }
     string jsonString;
     Api consume = new Api();
+    Pago pedidos = new Pago();
     public string Buscar { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccionar_Pedidos");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
+    }
+    public async Task<dynamic> data(dynamic select)
+    {
+
+        await Task.Delay(10);
+        if (select != null)
+        {
+            pedidos.IdUsuario = select.IdUsuario;
+            pedidos.Estado = select.Estado;
+            pedidos.Longitud = select.Longitud;
+            pedidos.Latitud = select.Latitud;
+        }
+        return null;
+    }
+    public bool IsVisible(dynamic cate)
+    {
+        if (string.IsNullOrEmpty(Buscar))
+            return true;
+        if (cate.Nombre.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (cate.Apellido.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (cate.Estado.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
 }
