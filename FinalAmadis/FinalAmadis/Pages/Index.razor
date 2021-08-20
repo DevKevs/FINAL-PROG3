@@ -68,7 +68,7 @@
         <div class="col-sm">
             <label for="categorias"> Filtrar por:</label>
             <select id="Drop" name="categorias" @onchange="Filter" class="form-control w-25">
-                <option value="Todos" selected>Categorias</option>
+                <option value="Todos" selected>Todo</option>
                 @if (Drop != null)
                 {
                     @foreach (var i in Drop)
@@ -144,7 +144,7 @@
                         <p>@productos.Categoria_producto</p>
                         <p>@productos.Precio $RD</p>
                         <hr>
-                        <h6 class="mb-3">@productos.Stock Unidad/es disponible/es</h6>
+                        <h6 class="mb-3 text-success">@productos.Stock Unidad/es disponible/es</h6>
                     </div>
                     <div class="col">
                         <img class="img-fluid ml-4" src="@productos.Foto_producto" style="width: 85%; height: 85%;" alt="producto">
@@ -170,8 +170,15 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" @onclick="AgregarAlCarrito" class="btn btn-primary">Agregar al carrito</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                @if (cantidad <= 0)
+                {
+                    <button type="submit" disabled class="btn btn-primary">Agregar al carrito</button>
+                }
+                else
+                {
+                    <button type="submit" @onclick="AgregarAlCarrito" class="btn btn-primary">Agregar al carrito</button>
+                }
             </div>
         </div>
     </div>
