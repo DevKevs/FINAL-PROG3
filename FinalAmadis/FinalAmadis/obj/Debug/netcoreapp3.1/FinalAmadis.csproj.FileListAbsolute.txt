@@ -529,3 +529,7 @@ C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\_Imports.razor.g.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\About.razor.g.cs
 C:\Users\gt\Desktop\Final Amadís\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\About.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\Braintree.dll
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\About.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\About.razor.g.cs

@@ -39,7 +39,7 @@
                             continue;
                         <tr>
                             <td>@prov.Titulo</td>
-                            <td><img src="@prov.Recurso" width="300" height="150" style="border-radius:5px" /></td>
+                            <td><img class="img-fluid" src="@prov.Recurso" width="300" height="150" style="border-radius:5px" /></td>
                             <td>
                                 <button title="Editar" @onclick="@(async()=> await data(prov))" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
                                 <button title="Eliminar" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
