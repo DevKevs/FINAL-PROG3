@@ -37,7 +37,7 @@
             <tbody>
                 @if (Datos != null)
                 {
-                    @foreach (var prov in Datos)
+                    @foreach (var prov in Datos.data)
                     {
                         if (!IsVisible(prov))
                             continue;
@@ -57,12 +57,6 @@
                 }
             </tbody>
         </table>
-        @if (!alerta)
-        {
-            <div class="alert alert-danger text-center" role="alert">
-                No se encontraron registros...
-            </div>
-        }
         @if (Datos == null)
         {
             <div class="d-flex justify-content-center">
@@ -234,7 +228,6 @@
     public dynamic Drop { get; set; }
     public dynamic Editable { get; set; }
     string jsonString;
-    bool alerta = true;
     Api consume = new Api();
     RootProductos productos = new RootProductos();
     private RootProductos[] filtro;
@@ -375,14 +368,12 @@
 
     public bool IsVisible(dynamic productos)
     {
-        alerta = true;
         if (string.IsNullOrEmpty(Buscar))  
-            return alerta; 
+            return true; 
         if (productos.Nombre_producto.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))  
-            return alerta; 
-        if (productos.Categoria_producto.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))  
-            return alerta; 
-        alerta = false;
-        return alerta;
+            return true;
+        if (productos.Categoria_producto.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
     }
 }

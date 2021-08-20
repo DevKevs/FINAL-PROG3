@@ -520,3 +520,6 @@ C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3
 C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.csproj.CopyComplete
 C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.genruntimeconfig.cache
 C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\FinalAmadis.csproj.AssemblyReference.cache
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\bin\Debug\netcoreapp3.1\CsvHelper.dll
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Pedidos.razor.g.cs
+C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\obj\Debug\netcoreapp3.1\Razor\Pages\Pedidos.razor.g.cs

@@ -13,161 +13,161 @@ namespace FinalAmadis.Pages.AdminPages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 1 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 2 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 3 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 4 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 5 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 6 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 7 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 8 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using FinalAmadis;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 9 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using FinalAmadis.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 10 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using Radzen;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 11 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using Radzen.Blazor;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 12 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 12 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 13 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 13 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 14 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 14 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Axes;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 15 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 15 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Axes.Ticks;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 16 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 16 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Enums;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 17 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 17 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Handlers;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 18 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 18 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Time;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 19 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 19 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Util;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 20 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 20 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Interop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\Productos.razor"
+#line 2 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\Productos.razor"
 using FinalAmadis.Data;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\Productos.razor"
+#line 3 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\Productos.razor"
 using System.Net;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\Productos.razor"
+#line 4 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\Productos.razor"
 using Newtonsoft.Json;
 
 #line default
@@ -183,13 +183,12 @@ using Newtonsoft.Json;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 232 "C:\Users\david\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\Productos.razor"
+#line 226 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\Productos.razor"
        
     public dynamic Datos { get; set; }
     public dynamic Drop { get; set; }
     public dynamic Editable { get; set; }
     string jsonString;
-    bool alerta = true;
     Api consume = new Api();
     RootProductos productos = new RootProductos();
     private RootProductos[] filtro;
@@ -330,15 +329,13 @@ using Newtonsoft.Json;
 
     public bool IsVisible(dynamic productos)
     {
-        alerta = true;
         if (string.IsNullOrEmpty(Buscar))  
-            return alerta; 
+            return true; 
         if (productos.Nombre_producto.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))  
-            return alerta; 
-        if (productos.Categoria_producto.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))  
-            return alerta; 
-        alerta = false;
-        return alerta;
+            return true;
+        if (productos.Categoria_producto.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
     }
 
 #line default

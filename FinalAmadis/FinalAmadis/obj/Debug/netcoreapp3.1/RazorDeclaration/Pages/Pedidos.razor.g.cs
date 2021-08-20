@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace FinalAmadis.Shared
+namespace FinalAmadis.Pages
 {
     #line hidden
     using System;
@@ -152,69 +152,14 @@ using ChartJs.Blazor.Interop;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 1 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Shared\AdminNavBar.razor"
-using Newtonsoft.Json;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 2 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Shared\AdminNavBar.razor"
-using System.Net;
-
-#line default
-#line hidden
-#nullable disable
-    public partial class AdminNavBar : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Tienda/Pedidos")]
+    public partial class Pedidos : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 57 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Shared\AdminNavBar.razor"
-      
-    public dynamic StorageData { get; set; }
-    public dynamic Salir { get; set; }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
-                StorageData = JsonConvert.DeserializeObject(storage);
-                StateHasChanged();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-    }
-    async Task CerrarSesion()
-    {
-        string myUrl = "https://super-mini-market.herokuapp.com/api/CerrarSesion/" + StorageData.IdUsuario;
-        Uri url = new Uri(myUrl);
-        WebClient client = new WebClient();
-        var data = await client.UploadStringTaskAsync(url, "");
-        Salir = JsonConvert.DeserializeObject(data);
-
-        if (Salir != null)
-        {
-            await Task.Delay(1000);
-            NavigationManager.NavigateTo("/");
-        }
-    }
-
-#line default
-#line hidden
-#nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }
 #pragma warning restore 1591

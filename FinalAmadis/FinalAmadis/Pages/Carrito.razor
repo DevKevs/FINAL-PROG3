@@ -4,7 +4,7 @@
 @using Newtonsoft.Json
 @inject IJSRuntime JSRuntime
 
-<div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="container mt-2 p-3 rounded cart">
+<div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="container mt-2 mb-5 p-3 rounded cart">
     <div class="row no-gutters">
         <div class="col-md-8">
             <div class="product-details mr-2">
@@ -44,7 +44,7 @@
 
             </div>
         </div>
-        <div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="col-md-4">
+        <div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="col-md-4 ">
             <div class="payment-info">
                 <div class="d-flex justify-content-between align-items-center"><span>Detalles de tarjeta</span><i class="fas fa-user-circle"></i></div><span class="type d-block mt-3 mb-1">Tipo</span><label class="radio"> <input type="radio" name="card" value="payment" checked> <span><img width="30" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
                 <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
@@ -64,46 +64,13 @@
         </div>
     </div>
 </div>
-@*<button @onclick="@ojo">prueba</button>*@
-<label>@myUrl</label>
+
+
 @code {
     public dynamic Datos { get; set; }
     public dynamic StorageData { get; set; }
     string myUrl;
-
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    try
-    //    {
-    //        if (StorageData != null)
-    //        {
-    //            myUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito/" + StorageData.IdUsuario;
-    //            Uri url = new Uri(myUrl);
-    //            WebClient client = new WebClient();
-    //            var data = await client.DownloadStringTaskAsync(url);
-    //            Datos = JsonConvert.DeserializeObject(data);
-
-    //        }
-    //        else
-    //        {
-
-    //            var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
-    //            StorageData = JsonConvert.DeserializeObject(storage);
-    //            StateHasChanged();
-    //            await pruba();
-
-    //        }
-
-
-
-
-    //    }
-    //    catch (Exception)
-    //    {
-    //        throw;
-    //    }
-
-    //}
+    
     async Task pruba()
     {
         try
