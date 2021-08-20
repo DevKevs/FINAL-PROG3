@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj": {}
+    "C:\\Users\\david\\Desktop\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj": {
+    "C:\\Users\\david\\Desktop\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
+        "projectUniqueName": "C:\\Users\\david\\Desktop\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
         "projectName": "FinalAmadis",
-        "projectPath": "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
-        "packagesPath": "C:\\Users\\gt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gt\\Desktop\\Final Amadís\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\obj\\",
+        "projectPath": "C:\\Users\\david\\Desktop\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\FinalAmadis.csproj",
+        "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\david\\Desktop\\FINAL-PROG3\\FinalAmadis\\FinalAmadis\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\gt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\david\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,6 +26,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -37,6 +38,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "ChartJs.Blazor.Fork": {
               "target": "Package",
@@ -81,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

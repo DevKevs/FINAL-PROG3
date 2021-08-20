@@ -66,8 +66,9 @@
 
     <div class="row">
         <div class="col-sm">
+            <label for="categorias"> Filtrar por:</label>
             <select id="Drop" name="categorias" @onchange="Filter" class="form-control w-25">
-                <option value="Todos" selected>Todos</option>
+                <option value="Todos" selected>Categorias</option>
                 @if (Drop != null)
                 {
                     @foreach (var i in Drop)
@@ -147,7 +148,7 @@
                         <label>Selecciona la cantidad</label>
                         @if (productos.Stock != null)
                         {
-                            <select id="Drop" class="form-control">
+                            <select id="Drop" @bind="cantidad"class="form-control">
 
                                 @if (productos.Stock != null)
                                 {
@@ -163,7 +164,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                <button type="submit" @onclick="AgregarAlCarrito" class="btn btn-primary">Agregar al carrito</button>
             </div>
         </div>
     </div>
@@ -172,13 +173,16 @@
 
 @code{
     public dynamic Datos { get; set; }
+    public dynamic Editable { get; set; }
     public dynamic Drop { get; set; }
+    public AgregarProductos Carrito = new AgregarProductos();
     string filter;
+    public string jsonString;
     bool alerta = false;
     public dynamic sliderData { get; set; }
     public dynamic StorageData { get; set; }
     RootProductos productos = new RootProductos();
-    List<int> cantidad = new List<int>();
+    public int cantidad;
 
     protected override async Task OnInitializedAsync()
     {
@@ -265,11 +269,15 @@
         if (selected != null)
         {
             await Task.Delay(10);
+            productos.IdProducto = selected.IdProducto;
             productos.Nombre_producto = selected.Nombre_producto;
             productos.Categoria_producto = selected.Categoria_producto;
             productos.Precio = selected.Precio;
             productos.Stock = selected.Stock;
             productos.Foto_producto = selected.Foto_producto;
+            productos.Descripcion_producto = selected.Descripcion_producto;
+
+
         }
         return null;
     }
@@ -295,5 +303,44 @@
         WebClient client = new WebClient();
         var data = await client.DownloadStringTaskAsync(url);
         Drop = JsonConvert.DeserializeObject(data);
+    }
+    async Task AgregarAlCarrito()
+    {
+       
+        
+        Carrito.IdUsuarios = Convert.ToInt32(StorageData.IdUsuario);
+        Carrito.IdProducto = Convert.ToInt32(productos.IdProducto);
+        Carrito.Nombre_producto = productos.Nombre_producto;
+        Carrito.Cantidad = cantidad.ToString();
+        Carrito.Suma_total = (Convert.ToInt32(productos.Precio)*cantidad).ToString();
+        Carrito.Categoria = productos.Categoria_producto;
+        Carrito.Descripcion = productos.Descripcion_producto;
+        Carrito.Foto = productos.Foto_producto;
+        Carrito.N_Stock= (Convert.ToInt32(productos.Stock) - cantidad).ToString();
+
+        jsonString = JsonConvert.SerializeObject(Carrito);
+        Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Registro_Carrito");
+        WebClient client = new WebClient();
+        var data = await client.UploadStringTaskAsync(url, jsonString);
+        Editable = JsonConvert.DeserializeObject(data);
+        if (Editable != null)
+        {
+            await Reload();
+            Carrito = new AgregarProductos();
+            Mensajes();
+        }
+
+    }
+    private async Task Mensajes()
+    {
+        if (Editable.ok == true)
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Los datos se guardaron con exito!");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+        }
+
     }
 }

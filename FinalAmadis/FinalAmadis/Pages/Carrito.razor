@@ -1,4 +1,8 @@
 ﻿@page "/Tienda/Carrito"
+@using FinalAmadis.Data
+@using System.Net
+@using Newtonsoft.Json
+@inject IJSRuntime JSRuntime
 
 <div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="container mt-2 p-3 rounded cart">
     <div class="row no-gutters">
@@ -7,17 +11,37 @@
                 <div style="cursor:pointer;" class="d-flex flex-row align-items-center"><a href="/Tienda"><i class="fa fa-long-arrow-left"></i><span class="ml-2">Continuar comprando</span></a></div>
                 <hr>
                 <h6 class="mb-0">Carrito de compras</h6>
-                <div class="d-flex justify-content-between"><span>Tienes "VARIABLE" productos en tu carrito </span>
-                    <div class="d-flex flex-row align-items-center"><span class="text-black-50">Filtrar por:</span>
+                <div class="d-flex justify-content-between">
+                    <span>Tienes "VARIABLE" productos en tu carrito </span>
+                    <div class="d-flex flex-row align-items-center">
+                        <span class="text-black-50">Filtrar por:</span>
                         <div class="price ml-2"><span class="mr-1">precio</span><i class="fa fa-angle-down"></i></div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
-                    <div class="d-flex flex-row"><img class="rounded" src="https://i.imgur.com/QRwjbm5.jpg" width="40">
-                        <div class="ml-2"><span class="font-weight-bold d-block">Iphone 11 pro</span><span class="spec">256GB, Navy Blue</span></div>
+                @if (Datos != null)
+                {
+                    foreach (var i in Datos)
+                    {
+                        <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                            <div class="d-flex flex-row">
+                                <img class="rounded" src="@i.Foto" width="40">
+                                <div class="ml-2"><span class="font-weight-bold d-block">@i.Nombre_producto</span><span class="spec">@i.Descripcion</span></div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center"><span class="d-block">@i.Cantidad</span><span class="d-block ml-5 font-weight-bold">$@i.Suma_total</span><i style="cursor: pointer; color: red;" class="fa fa-trash-o ml-3 text-red-50"></i></div>
+                        </div>
+
+                    }
+
+                }
+                @if (Datos == null)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden"></span>
+                        </div>
                     </div>
-                    <div class="d-flex flex-row align-items-center"><span class="d-block">2</span><span class="d-block ml-5 font-weight-bold">$900</span><i style="cursor: pointer; color: red;" class="fa fa-trash-o ml-3 text-red-50"></i></div>
-                </div>
+                }
+
             </div>
         </div>
         <div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="col-md-4">
@@ -40,6 +64,92 @@
         </div>
     </div>
 </div>
+@*<button @onclick="@ojo">prueba</button>*@
+<label>@myUrl</label>
 @code {
-    
+    public dynamic Datos { get; set; }
+    public dynamic StorageData { get; set; }
+    string myUrl;
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    try
+    //    {
+    //        if (StorageData != null)
+    //        {
+    //            myUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito/" + StorageData.IdUsuario;
+    //            Uri url = new Uri(myUrl);
+    //            WebClient client = new WebClient();
+    //            var data = await client.DownloadStringTaskAsync(url);
+    //            Datos = JsonConvert.DeserializeObject(data);
+
+    //        }
+    //        else
+    //        {
+
+    //            var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
+    //            StorageData = JsonConvert.DeserializeObject(storage);
+    //            StateHasChanged();
+    //            await pruba();
+
+    //        }
+
+
+
+
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+
+    //}
+    async Task pruba()
+    {
+        try
+        {
+            myUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito/" + StorageData.IdUsuario;
+            Uri url = new Uri(myUrl);
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
+                StorageData = JsonConvert.DeserializeObject(storage);
+
+                myUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito/" + StorageData.IdUsuario;
+                Uri url = new Uri(myUrl);
+                WebClient client = new WebClient();
+                var data = await client.DownloadStringTaskAsync(url);
+                Datos = JsonConvert.DeserializeObject(data);
+                StateHasChanged();
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    }
+    async Task ojo()
+    {
+        var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
+        StorageData = JsonConvert.DeserializeObject(storage);
+        await pruba();
+
+    }
 }
