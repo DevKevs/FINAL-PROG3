@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Logging
 @inject ILogger<Index> Logger
 @inject IJSRuntime JSRuntime
+@using System.ComponentModel.DataAnnotations;
 
 <div class="card">
     <div class="card-header" style="background-color: #fff">
@@ -102,11 +103,21 @@
                 </button>
             </div>
             <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                <label for="Estado">Actualizar el pedido de @_actualizar.NombreCliente</label>
+                <EditForm Model="@_actualizar">
+                    <DataAnnotationsValidator/>
+                    <InputSelect name="Estado" id="Drop" @bind-Value="@_actualizar.Estado" class="form-control">
+                        <option value="" selected disabled>Seleccione el estado</option>
+                        <option value="En proceso">En proceso</option>
+                        <option value="Enviado">Enviado</option>
+                        <option value="Completado">Completado</option>
+                    </InputSelect>
+                    <ValidationMessage For=@(() => _actualizar.Estado) />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </EditForm>
             </div>
         </div>
     </div>
@@ -141,7 +152,8 @@
     Api consume = new Api();
     Pago pedidos = new Pago();
     public string Buscar { get; set; }
-
+    Actualizar _actualizar = new Actualizar();
+    
     protected override async Task OnInitializedAsync()
     {
         try
@@ -161,7 +173,6 @@
     }
     public async Task<dynamic> data(dynamic select)
     {
-
         await Task.Delay(10);
         if (select != null)
         {
@@ -169,6 +180,9 @@
             pedidos.Estado = select.Estado;
             pedidos.Longitud = select.Longitud;
             pedidos.Latitud = select.Latitud;
+            _actualizar.IdPedido = select.IdOrden;
+            _actualizar.Estado = select.Estado;
+            _actualizar.NombreCliente = $"{select.Nombre} {select.Apellido}";
         }
         return null;
     }
@@ -183,5 +197,19 @@
         if (cate.Estado.ToString().Contains(Buscar, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
+    }
+
+    class Actualizar
+    {
+        public string IdPedido { get; set; }
+        
+        [Required(ErrorMessage = "El estado es requerido")]
+        public string Estado { get; set; }
+        
+        public string NombreCliente { get; set; }
+        
+        
+        
+        
     }
 }

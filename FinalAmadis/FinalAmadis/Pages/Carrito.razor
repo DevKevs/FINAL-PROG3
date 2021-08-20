@@ -13,13 +13,16 @@
                 <hr>
                 <h6 class="mb-0">Carrito de compras</h6>
                 <div class="d-flex justify-content-between">
-                    @if (myCarrito != null)
+                    @if (myCarrito != null && myCarrito.ok == true)
                     {
                         <span>
                             Tienes @myCarrito.Cantidad productos en tu carrito
                         </span>
+                    }else{
+                        <span>
+                            No tienes productos agregados...
+                        </span>
                     }
-
                     <div class="d-flex flex-row align-items-center">
                         <span class="text-black-50">Cantidad</span>
                         <div class="price ml-2"><span class="mr-1">precio</span><i class="fa fa-angle-down"></i></div>
@@ -60,7 +63,7 @@
         <div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="col-md-4 ">
             <div class="payment-info">
                 <div class="d-flex justify-content-between align-items-center"><span>Detalles de tarjeta</span><i class="fas fa-user-circle"></i></div><span class="type d-block mt-3 mb-1">Tipo</span><label class="radio"> <input type="radio" name="card" value="payment" checked> <span><img width="30" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
-                <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
+                <label class="radio"> <input  type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
                 <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
                 <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
                 <div class="col-12">

@@ -48,15 +48,15 @@
                                 <td>@prov.Correo</td>
                                 <td>@prov.Rol</td>
                                 <td>
-
-                                    <button title="Hacer admin" @onclick="@(async()=> await data(prov))" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
                                     @if (prov.Rol != "SuperAdmin")
                                     {
+                                        <button title="Hacer admin" @onclick="@(async()=> await data(prov))" class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
                                         <button title="Eliminar" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     }
                                     else
                                     {
-                                        <button title="No te puedes eliminar a ti mismo" disabled data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                        <button title="No puedes actualizar tu rol" disabled class="btn btn-success mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button>
+                                        <button title="No te puedes eliminar a un SuperAdmin" disabled data-toggle="modal" data-target="#EliminarProducto" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     }
                                 </td>
                             </tr>

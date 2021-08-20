@@ -12,7 +12,7 @@
 </style>
 
 <div class="page-content page-container" id="page-content">
-    @if (Datos != null)
+    @if (Datos != null && Datos.ok == true)
     {
         foreach (var i in Datos.data)
         {
@@ -70,6 +70,7 @@
             </div>
         }
     }
+    @if(Datos != null && Datos.ok == false){<div class="alert alert-danger text-center" role="alert">No tiene pedidos...</div>}
     @if (Datos == null)
     {
         <div class="d-flex justify-content-center">
