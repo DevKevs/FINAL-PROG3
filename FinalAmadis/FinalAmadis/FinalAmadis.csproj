@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Braintree" Version="5.9.0" />
     <PackageReference Include="ChartJs.Blazor.Fork" Version="2.0.2" />
     <PackageReference Include="CsvHelper" Version="12.1.2" />
     <PackageReference Include="MatBlazor" Version="2.8.0" />

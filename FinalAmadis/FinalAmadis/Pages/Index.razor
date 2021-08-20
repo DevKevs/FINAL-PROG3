@@ -91,7 +91,7 @@
             {
                 <div class="col p-2">
                     <div class="card p-4">
-                        <div class="card-body">
+                        <div class="card-body"  style="height: 375px; width: 280px">
                             <img class="img-fluid mb-2" src="@i.Foto_producto" alt="Alternate Text" style="width: 85%;" />
                             <h5>@i.Nombre_producto</h5>
                             <h6>@i.Categoria_producto</h6>
@@ -234,7 +234,7 @@
                 WebClient client = new WebClient();
                 var data = await client.DownloadStringTaskAsync(url);
                 Datos = JsonConvert.DeserializeObject(data);
-                
+
                 if (Datos.ok == false)
                 {
                     alerta = true;
@@ -307,30 +307,36 @@
     }
     async Task AgregarAlCarrito()
     {
-       
-        
-        Carrito.IdUsuarios = Convert.ToInt32(StorageData.IdUsuario);
-        Carrito.IdProducto = Convert.ToInt32(productos.IdProducto);
-        Carrito.Nombre_producto = productos.Nombre_producto;
-        Carrito.Cantidad = cantidad.ToString();
-        Carrito.Suma_total = (Convert.ToInt32(productos.Precio)*cantidad).ToString();
-        Carrito.Categoria = productos.Categoria_producto;
-        Carrito.Descripcion = productos.Descripcion_producto;
-        Carrito.Foto = productos.Foto_producto;
-        Carrito.N_Stock= (Convert.ToInt32(productos.Stock) - cantidad).ToString();
 
-        jsonString = JsonConvert.SerializeObject(Carrito);
-        Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Registro_Carrito");
-        WebClient client = new WebClient();
-        var data = await client.UploadStringTaskAsync(url, jsonString);
-        Editable = JsonConvert.DeserializeObject(data);
-        if (Editable != null)
+        try
         {
-            await Reload();
-            Carrito = new AgregarProductos();
-            Mensajes();
-        }
+            Carrito.IdUsuarios = Convert.ToInt32(StorageData.IdUsuario);
+            Carrito.IdProducto = Convert.ToInt32(productos.IdProducto);
+            Carrito.Nombre_producto = productos.Nombre_producto;
+            Carrito.Cantidad = cantidad.ToString();
+            Carrito.Suma_total = (Convert.ToInt32(productos.Precio) * cantidad).ToString();
+            Carrito.Categoria = productos.Categoria_producto;
+            Carrito.Descripcion = productos.Descripcion_producto;
+            Carrito.Foto = productos.Foto_producto;
+            Carrito.N_Stock = (Convert.ToInt32(productos.Stock) - cantidad).ToString();
 
+            jsonString = JsonConvert.SerializeObject(Carrito);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Registro_Carrito");
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                await Reload();
+                Carrito = new AgregarProductos();
+                Mensajes();
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
     private async Task Mensajes()
     {

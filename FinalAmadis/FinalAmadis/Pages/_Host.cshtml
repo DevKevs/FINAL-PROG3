@@ -27,16 +27,16 @@
         <component type="typeof(App)" render-mode="ServerPrerendered" />
     </app>
 
-<div id="blazor-error-ui">
-    <environment include="Staging,Production">
-        An error has occurred. This application may no longer respond until reloaded.
-    </environment>
-    <environment include="Development">
-        An unhandled exception has occurred. See browser dev tools for details.
-    </environment>
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
 
 
     <script src="_framework/blazor.server.js"></script>
@@ -60,5 +60,8 @@
     <script src="/Js/Base64.js"></script>
     <script src="/Js/LocalStorage.js"></script>
     <script src="/Js/csv.js"></script>
+    <script src="/Js/paypal.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AaF4RPwN_ETPOqQhskIweOmkN8ETsyEotSYUYkAfqHRvsaybzXzCf2AVyI-G0Dk-0BIZSOLIVjU2730ysb&intent=authorize&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=test"></script>
 </body>
 </html>

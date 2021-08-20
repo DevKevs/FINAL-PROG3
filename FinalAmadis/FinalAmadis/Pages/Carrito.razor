@@ -2,6 +2,7 @@
 @using FinalAmadis.Data
 @using System.Net
 @using Newtonsoft.Json
+@inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
 <div style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="container mt-2 mb-5 p-3 rounded cart">
@@ -12,9 +13,15 @@
                 <hr>
                 <h6 class="mb-0">Carrito de compras</h6>
                 <div class="d-flex justify-content-between">
-                    <span>Tienes "VARIABLE" productos en tu carrito </span>
+                    @if (myCarrito != null)
+                    {
+                        <span>
+                            Tienes @myCarrito.Cantidad productos en tu carrito
+                        </span>
+                    }
+
                     <div class="d-flex flex-row align-items-center">
-                        <span class="text-black-50">Filtrar por:</span>
+                        <span class="text-black-50">Cantidad</span>
                         <div class="price ml-2"><span class="mr-1">precio</span><i class="fa fa-angle-down"></i></div>
                     </div>
                 </div>
@@ -22,12 +29,13 @@
                 {
                     foreach (var i in Datos)
                     {
+
                         <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
                             <div class="d-flex flex-row">
                                 <img class="rounded" src="@i.Foto" width="40">
                                 <div class="ml-2"><span class="font-weight-bold d-block">@i.Nombre_producto</span><span class="spec">@i.Descripcion</span></div>
                             </div>
-                            <div class="d-flex flex-row align-items-center"><span class="d-block">@i.Cantidad</span><span class="d-block ml-5 font-weight-bold">$@i.Suma_total</span><i style="cursor: pointer; color: red;" class="fa fa-trash-o ml-3 text-red-50"></i></div>
+                            <div class="d-flex flex-row align-items-center"><span class="d-block">@i.Cantidad</span><span class="d-block ml-5 font-weight-bold">$@i.Suma_total</span><i style="cursor: pointer; color: red;" @onclick="@(async () => await data(i))" class="fa fa-trash-o ml-3 text-red-50"></i></div>
                         </div>
 
                     }
@@ -57,53 +65,191 @@
                     <div class="col-md-6"><label class="credit-card-label">CVV</label><input type="text" class="form-control credit-inputs" placeholder="342"></div>
                 </div>
                 <hr class="line">
-                <div class="d-flex justify-content-between information"><span>Subtotal</span><span>$"VARIABLE"</span></div>
                 <div class="d-flex justify-content-between information"><span>Envío</span><span>$00.00</span></div>
-                <div class="d-flex justify-content-between information"><span>Total(Incl. taxes)</span><span>$"VARIABLE"</span></div><button class="btn btn-info btn-block d-flex justify-content-between mt-3" type="button"><span>$"VARIABLE"</span><span>Pagar <i class="fa fa-long-arrow-right ml-1"></i></span></button>
+                <div class="d-flex justify-content-between information"><span>Total(Incl. taxes)</span><span>$@cantidad</span></div><button class="btn btn-info btn-block d-flex justify-content-between mt-3" data-toggle="modal" data-target="#staticBackdrop" type="button"><span>$@cantidad</span><span>Pagar <i class="fa fa-long-arrow-right ml-1"></i></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid col-7">
+    <div class="card">
+        <div class="card-header" style="background-color: #fff">
+            <div class="row">
+                <div class="col d-inline">
+                    <h3>Pagar con Paypal</h3>
+                </div>
+                <div class="col d-inline">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-12">
+                <div id="smart-button-container">
+                    <div style="text-align: center"><label for="description"> </label><input type="text" class="form-control" name="descriptionInput" id="description" maxlength="127" value=""></div>
+                    <p id="descriptionError" style="visibility: hidden; color:red; text-align: center;">Please enter a description</p>
+                    <div style="text-align: center"><label for="amount"> </label><input name="amountInput" class="form-control" type="number" id="amount" value=""><span> USD</span></div>
+                    <p id="priceLabelError" style="visibility: hidden; color:red; text-align: center;">Please enter a price</p>
+                    <div id="invoiceidDiv" style="text-align: center; display: none;"><label for="invoiceid"> </label><input name="invoiceid" class="form-control" maxlength="127" type="text" id="invoiceid" value=""></div>
+                    <p id="invoiceidError" style="visibility: hidden; color:red; text-align: center;">Please enter an Invoice ID</p>
+                    <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Monto a pagar $RD @cantidad</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="pagar">
+                    <h5>Diganos su direccion y contacto</h5>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label>Provincia</label>
+                            <select class="form-control" @onchange="BuscarMunicipio">
+                                <option value="" selected disabled>Seleccione la provincia</option>
+                                @if (B_Provincias != null)
+                                {
+                                    foreach (var item in B_Provincias.data)
+                                    {
+                                        <option value="@item.codigo">@item.nombre</option>
+                                    }
+                                }
+                            </select>
+                            <InputText type="hidden" class="form-control" @bind-Value="pagar.Provincia" />
+
+                            <InputText class="form-control mt-2" @bind-Value="pagar.IdUsuario" readonly />
+                            <ValidationMessage For=@(() => pagar.Provincia) />
+                        </div>
+                        <div class="col">
+                            <label>Municipio</label>
+                            <InputSelect class="form-control" @bind-Value="pagar.Municipio">
+                                <option value="" selected disabled>Seleccione el municipio</option>
+                                @if (B_Municipio != null)
+                                {
+                                    foreach (var item in B_Municipio.data)
+                                    {
+                                        <option value="@item.nombre">@item.nombre</option>
+                                    }
+                                }
+                            </InputSelect>
+                            <InputText class="form-control mt-2" @bind-Value="pagar.Total" readonly />
+                            <ValidationMessage For=@(() => pagar.Municipio) />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label>Distrito municipal o el barrio</label>
+                            <InputText id="name" placeholder="Escriba el nombre distrito municipal o el nombre del barrio..." class="form-control" @bind-Value="pagar.Distrito_Municipal" />
+                            <ValidationMessage For=@(() => pagar.Distrito_Municipal) />
+                        </div>
+                        <div class="col">
+                            <label>Nombre de la calle</label>
+                            <InputText id="name" placeholder="Escriba el nombre de la calle..." class="form-control" @bind-Value="pagar.Nombre_Calle" />
+                            <ValidationMessage For=@(() => pagar.Nombre_Calle) />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label>Numero de la calle</label>
+                            <InputText id="name" class="form-control" placeholder="Escriba el numero de la calle..." @oninput="BuscarLang" @bind-Value="pagar.No_Calle" />
+                            <ValidationMessage For=@(() => pagar.No_Calle) />
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <label>Numero de la casa</label>
+                                    <InputText id="name" placeholder="Escriba el numero de la casa..." class="form-control" @bind-Value="pagar.No_Casa" />
+                                    <ValidationMessage For=@(() => pagar.No_Casa) />
+                                </div>
+                                <div class="col">
+                                    <label>Telefono</label>
+                                    <InputText id="name" placeholder="Telefono" class="form-control" @bind-Value="pagar.Telefono" />
+                                    <ValidationMessage For=@(() => pagar.Telefono) />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="mt-2">Direccion</label>
+                    <InputTextArea id="name" placeholder="Escriba su direccion..." class="form-control" @bind-Value="pagar.Direccion" />
+                    <ValidationMessage For=@(() => pagar.Direccion) />
+                    <div class="row mt-2 d-none">
+                        <div class="col">
+                            <label>Longitud</label>
+                            <InputText id="name" type="hidden" disabled class="form-control" @bind-Value="pagar.Longitud" />
+                            <ValidationMessage For=@(() => pagar.Longitud) />
+                        </div>
+                        <div class="col">
+                            <label>Latitud</label>
+                            <InputText id="name" type="hidden" disabled class="form-control" @bind-Value="pagar.Latitud" />
+                            <ValidationMessage For=@(() => pagar.Latitud) />
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" @onclick="ProcesarPago" class="btn btn-success">Pagar $@cantidad</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @code {
     public dynamic Datos { get; set; }
+    public dynamic Salir { get; set; }
+    public dynamic myCarrito { get; set; }
+    public dynamic B_Municipio { get; set; }
+    public dynamic B_Provincias { get; set; }
+    public dynamic B_ProvinciaUnica { get; set; }
+    public dynamic B_LongLag { get; set; }
     public dynamic StorageData { get; set; }
-    string myUrl;
-    
-    async Task pruba()
-    {
-        try
-        {
-            myUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito/" + StorageData.IdUsuario;
-            Uri url = new Uri(myUrl);
-            WebClient client = new WebClient();
-            var data = await client.DownloadStringTaskAsync(url);
-            Datos = JsonConvert.DeserializeObject(data);
+    string IdProducto;
+    ExampleModel exampleModel = new ExampleModel();
+    public Pago pagar = new Pago();
+    int cantidad;
+    int cont;
+    Api API = new Api();
 
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+    protected override void OnInitialized()
+    {
+        B_Provincias = API.Get("http://provinciasrd.raydelto.org/provincias");
     }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             try
             {
+                await JSRuntime.InvokeVoidAsync("botoncito");
                 var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
                 StorageData = JsonConvert.DeserializeObject(storage);
-
-                myUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito/" + StorageData.IdUsuario;
+                string myUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito/" + StorageData.IdUsuario;
                 Uri url = new Uri(myUrl);
                 WebClient client = new WebClient();
                 var data = await client.DownloadStringTaskAsync(url);
                 Datos = JsonConvert.DeserializeObject(data);
+                foreach (var item in Datos)
+                {
+                    cantidad = cantidad + Convert.ToInt32(item.Suma_total);
+                }
+                pagar.IdUsuario = StorageData.IdUsuario;
+                pagar.Total = cantidad.ToString();
+                await Loadcarrito();
                 StateHasChanged();
-
-
             }
             catch (Exception)
             {
@@ -112,11 +258,130 @@
             }
         }
     }
-    async Task ojo()
+    async Task Reload()
     {
-        var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
-        StorageData = JsonConvert.DeserializeObject(storage);
-        await pruba();
+        try
+        {
+            string myUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito/" + StorageData.IdUsuario;
+            Uri url = new Uri(myUrl);
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    public async Task Loadcarrito()
+    {
+        try
+        {
+            string myUrl2 = "https://super-mini-market.herokuapp.com/api/Cantidad_Producto_Carrito/" + StorageData.IdUsuario;
+            Uri url = new Uri(myUrl2);
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            myCarrito = JsonConvert.DeserializeObject(data);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
 
     }
+    public void BuscarMunicipio(ChangeEventArgs e)
+    {
+        B_Municipio = API.Get("http://provinciasrd.raydelto.org/provincias/" + e.Value.ToString() + "/municipios");
+        B_ProvinciaUnica = API.Get("http://provinciasrd.raydelto.org/provincias/" + e.Value.ToString() + "");
+        if (B_ProvinciaUnica != null)
+        {
+            pagar.Provincia = B_ProvinciaUnica.data[0].nombre;
+        }
+        if (pagar.Municipio != null)
+        {
+
+        }
+
+    }
+    public void BuscarLang(ChangeEventArgs e)
+    {
+        B_LongLag = API.Get("https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAfCsBivkdYabQdQnmCNnbWMiRnGIAYj3c&address" +
+            "=" + pagar.Provincia + "," + pagar.Municipio + "," + pagar.Distrito_Municipal + "," + pagar.Nombre_Calle + ",#" + e.Value.ToString() + "");
+
+        if (B_LongLag != null)
+        {
+            try
+            {
+                var s = B_LongLag.results[0].geometry.location.lng;
+                pagar.Longitud = s;
+                var g = B_LongLag.results[0].geometry.location.lat;
+                pagar.Latitud = g;
+                pagar.Direccion = "" + pagar.Provincia + "," + pagar.Municipio + "," + pagar.Distrito_Municipal + "," + pagar.Nombre_Calle + ",#" + e.Value.ToString() + "";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+            }
+        }
+    }
+
+    public async Task<dynamic> data(dynamic selected)
+    {
+        if (selected != null)
+        {
+            await Task.Delay(10);
+            IdProducto = selected.IdProducto;
+            await HandleDelete(IdProducto);
+        }
+        return null;
+    }
+    async Task HandleDelete(string id)
+    {
+        string myUrl = "https://fusion-super-mini-market.herokuapp.com/api/Eliminar_producto_carrito/" + id;
+        Uri url = new Uri(myUrl);
+        WebClient client = new WebClient();
+        var data = await client.UploadStringTaskAsync(url, "");
+        Salir = JsonConvert.DeserializeObject(data);
+        if (Salir.ok == true)
+        {
+            Datos = null;
+            await Reload();
+        }
+    }
+    async Task ProcesarPago()
+    {
+        try
+        {
+            string jsonString = JsonConvert.SerializeObject(pagar);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Agregar_Pedidos");
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Salir = JsonConvert.DeserializeObject(data);
+            if (Salir != null)
+            {
+                await Reload();
+                Mensajes();
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    private async Task Mensajes()
+    {
+        if (Salir.ok == true)
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Compra exitosa!");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+        }
+
+    }
+
 }

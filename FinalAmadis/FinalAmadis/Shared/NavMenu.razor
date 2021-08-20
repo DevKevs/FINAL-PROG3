@@ -14,10 +14,9 @@
                 <div class="collapse navbar-collapse" id="ftco-nav">
                     <ul class="navbar-nav ml-auto mr-md-3" style="justify-content: space-between;">
                         <li class="nav-item"><a href="/Tienda/Pedidos" class="nav-link">Pedidos <i class="fas fa-box-open"></i></a></li>
-                        <li class="nav-item"><a href="/Tienda/Carrito" class="nav-link">Carrito <i class="fas fa-shopping-cart"></i></a></li>
-
+                        <li class="nav-item"><a href="/Tienda/Carrito" class="nav-link">Carrito <i class="fas fa-shopping-cart"></i>@if (myCarrito != null) {<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">@myCarrito.Cantidad</span>}</a></li>
                         <li class="nav-item"><a href="/Tienda/MiCuenta" class="nav-link">@if (StorageData != null)
-                        {<h6>@StorageData.Nombre  @StorageData.Apellido <i class="fas fa-user-circle"></i></h6>}</a></li>
+                        {<h6 class="ml-3">@StorageData.Nombre  @StorageData.Apellido <i class="fas fa-user-circle"></i></h6>}</a></li>
                         <li class="nav-item"><a href="/" @onclick="CerrarSesion" class="nav-link">Cerrar sesión <i class="fas fa-sign-out-alt"></i></a></li>
                     </ul>
                 </div>
@@ -31,6 +30,7 @@
 @code{
     public dynamic StorageData { get; set; } = null;
     public dynamic Salir { get; set; }
+    public dynamic myCarrito { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -40,6 +40,7 @@
             {
                 var storage = await JSRuntime.InvokeAsync<string>("storagePicker");
                 StorageData = JsonConvert.DeserializeObject(storage);
+                await Loadcarrito();
                 StateHasChanged();
             }
             catch (Exception)
@@ -49,9 +50,25 @@
             }
         }
     }
+    public async Task Loadcarrito()
+    {
+        try
+        {
+            string myUrl2 = "https://super-mini-market.herokuapp.com/api/Cantidad_Producto_Carrito/" + StorageData.IdUsuario;
+            Uri url = new Uri(myUrl2);
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            myCarrito = JsonConvert.DeserializeObject(data);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+    }
     async Task CerrarSesion()
     {
-        string myUrl = "https://super-mini-market.herokuapp.com/api/CerrarSesion/" + StorageData.IdUsuario;
+        string myUrl = "https://fusion-super-mini-market.herokuapp.com/api/CerrarSesion/" + StorageData.IdUsuario;
         Uri url = new Uri(myUrl);
         WebClient client = new WebClient();
         var data = await client.UploadStringTaskAsync(url, "");
