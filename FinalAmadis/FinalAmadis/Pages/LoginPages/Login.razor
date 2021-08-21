@@ -6,54 +6,122 @@
 @using System.Runtime.CompilerServices
 @using System.Threading
 @inject IJSRuntime JSRuntime
-<center>
-    <div class="col-8 card">
-        <div class="col-12 row">
-            <p>&nbsp;</p>
-        </div>
-        <div class="col-12 row">
-            <div class="col-6" style="border-right:groove">
-                <img src="/img/Shopping-rafiki.svg" width="400" />
+
+<style>
+    #hiddenLogo{
+        display: none;
+        max-width: 200px;
+        max-height: 200px;
+        margin: auto;
+        align-content: center;
+    }
+    .h3{
+        text-align: center;
+    }
+    #imgDiv{
+        border-right: groove;
+    }
+    #formDiv{
+        border-left: thick;
+        align-content: center;
+        align-self: center;
+    }
+    #logImg{
+        margin-left: 2rem;
+    }
+    
+    @@media (max-width: 768px) {
+      #imgDiv{
+        display: none;
+      
+      }
+      #hiddenLogo{
+        display:block ;
+      }
+      .card{
+           max-width: 150px;
+           max-height: 300px;
+    
+           margin-top: 25%;
+          
+           align-content: normal;           
+           
+      }
+    
+    
+    }
+    
+    
+    
+    
+    #containerLogin{
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        
+        
+        align-content: center;
+             
+    }
+    
+    .card{
+        max-width: 780px;
+        max-height: 584px;
+        height: 480px;
+        margin-left: 15.5%;
+        margin-right: 2%;
+        margin-top: 7%;
+        align-content: center;
+    }
+  
+</style>
+
+<div id="containerLogin" class="container p-0">
+    <div class="card p-0 w-100">
+        <div class="row mt-3">
+            <div id="imgDiv" class="col">
+                <img id="logImg" class="img-fluid" src="/img/Shopping-rafiki.svg" width="400"/>
             </div>
-            <div class="col-6" style="border-left:thick">
-                <EditForm Model="@user" OnValidSubmit="@HandleSubmit">
-                    <DataAnnotationsValidator />
-                    <div>
-                        <br /><br /><br /><br /><br />
+
+            <div id="formDiv" class="col">
+                <div id="hiddenLogo" class="col">
+                    <img class="img-fluid" src="/img/comestibles.svg" alt="logo">
+                </div>
+                
+                <EditForm class="p-3" Model="@user" OnValidSubmit="@HandleSubmit">
+                    <DataAnnotationsValidator/>
+                   
+                    <div style="margin-top: 15%">
+                        <h3 class="h3" style="font-weight:bold;  ">Fusion Market Login</h3>
                     </div>
-                    <div>
-                        <h3 style="font-weight:bold; ">Fusion Market Login</h3>
+                    <div class="col-12 row mt-3 p-2 ">
+                        <InputText id="Correo" type="email" placeholder="Correo electronico" class="form-control" @bind-Value="user.Correo"/>
+                        <ValidationMessage For=@(() => user.Correo)/>
                     </div>
-                    <div>
-                        <br />
+                    <div class="col-12 row mt-2 p-2 justify-content-center">
+                        <InputText id="Contraseña" type="password" placeholder="Contraseña" class="form-control" @bind-Value="user.Contraseña"/>
+                        <ValidationMessage For=@(() => user.Contraseña)/>
                     </div>
-                    <div class="col-12 row">
-                        <InputText id="Correo" type="email" placeholder="Correo electronico" class="form-control" @bind-Value="user.Correo" />
-                        <ValidationMessage For=@(() => user.Correo) />
-                    </div>
-                    <br />
-                    <div class="col-12 row">
-                        <InputText id="Contraseña" type="password" placeholder="Contraseña" class="form-control" @bind-Value="user.Contraseña" />
-                        <ValidationMessage For=@(() => user.Contraseña) />
-                    </div>
-                    <br />
-                    <div class="col-12 row">
-                        <span class="col-12"></span>
-                        <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
-                        <a href="/Signup" class="col-6">Registrarse</a>
-                    </div>
-                    <br />
-                    <div class="col-12 row" style="text-align:left; font-weight:bold">
-                        <span class="col-12" style="color:red">@LoginMesssage</span>
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <input type="submit" class="form-control w-100 btn btn-primary" value="Login"/>
+                        </div>
+                        <div class="col text-center">
+                            <a href="/Signup">Registrarse</a>
+                        </div>
                     </div>
                 </EditForm>
             </div>
         </div>
-        <div class="col-12 row">
-            <p>&nbsp;</p>
-        </div>
     </div>
-</center>
+</div>
+
+
+
+
+
+
 
 @code {
     private Usuario user = new Usuario();
