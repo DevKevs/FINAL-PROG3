@@ -44,4 +44,16 @@ namespace FinalAmadis.Data
         public string IdAdmin { get; set; }
         public string IdUsuario { get; set; }
     }
+    public class EditarUsuario
+    {
+        [Required(ErrorMessage = "Correo requerido")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Debes indicar un email válido")]
+        public string Correo { get; set; }
+
+        [Required(ErrorMessage = "Contraseña requerida")]
+        public string Contraseña { get; set; }
+        [Required(ErrorMessage = "Nueva Contraseña requerida")]
+        public string New_Contraseña { get; set; }
+
+    }
 }

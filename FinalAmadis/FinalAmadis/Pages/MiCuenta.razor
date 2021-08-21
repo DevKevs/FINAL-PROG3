@@ -1,48 +1,51 @@
 ﻿@page "/Tienda/MiCuenta"
+@using FinalAmadis.Data
+@using System.Net
 @using Newtonsoft.Json
 @inject IJSRuntime JSRuntime
 
 <style>
-    p{
+    p {
         color: black;
     }
 </style>
 @if (StorageData != null)
 {
     <div class="page-content page-container" id="page-content">
-    <div class="padding d-flex justify-content-center">
-        <div class="row container d-flex justify-content-center">
-            <div class="col">
-                <div class="card user-card-full">
-                    <div class="row m-l-0 m-r-0">
-                        <div class="col-sm-4 bg-c-lite-green user-profile">
-                            <div class="card-block text-center text-white">
-                                <div class="m-b-25"> <img src="/img/Catalogue-pana.svg" style="width: 50%;" class="img-radius" alt="User-Profile-Image"> </div>
-                                <h6 class="f-w-600">@StorageData.Nombre</h6>
-                                <h5>Cliente</h5> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="card-block">
-                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Información de cliente</h6>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Nombre</p>
-                                        <h6 class="text-muted f-w-400">@StorageData.Nombre @StorageData.Apellido</h6>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Cumpleaños</p>
-                                        <h6 class="text-muted f-w-400">@StorageData.Fecha_Nacimiento</h6>
-                                    </div>
+        <div class="padding d-flex justify-content-center">
+            <div class="row container d-flex justify-content-center">
+                <div class="col">
+                    <div class="card user-card-full">
+                        <div class="row m-l-0 m-r-0">
+                            <div class="col-sm-4 bg-c-lite-green user-profile">
+                                <div class="card-block text-center text-white">
+                                    <div class="m-b-25"> <img src="/img/Catalogue-pana.svg" style="width: 50%;" class="img-radius" alt="User-Profile-Image"> </div>
+                                    <h6 class="f-w-600">@StorageData.Nombre</h6>
+                                    <h5>Cliente</h5> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                 </div>
-                                <div class="row mt-2">
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Ir a tu carrito</p>
-                                        <a href="/Tienda/Carrito"><i class="fas fa-shopping-cart fa-2x p-1"></i></a>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="card-block">
+                                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Información de cliente <i style="cursor: pointer;" class="fas fa-cog" data-toggle="modal" data-target="#AgregarProducto"></i></h6>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Nombre</p>
+                                            <h6 class="text-muted f-w-400">@StorageData.Nombre @StorageData.Apellido</h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Cumpleaños</p>
+                                            <h6 class="text-muted f-w-400">@StorageData.Fecha_Nacimiento</h6>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Ver pedidos</p>
-                                        <a href="/Tienda/Pedidos" class="nav-link"><i class="fas fa-box-open fa-2x"></i></a>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Ir a tu carrito</p>
+                                            <a href="/Tienda/Carrito"><i class="fas fa-shopping-cart fa-2x p-1"></i></a>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Ver pedidos</p>
+                                            <a href="/Tienda/Pedidos" class="nav-link"><i class="fas fa-box-open fa-2x"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +55,6 @@
             </div>
         </div>
     </div>
-</div>
 }
 @if (StorageData == null)
 {
@@ -63,9 +65,54 @@
     </div>
 }
 
+
+<!-- Modal editar usuario-->
+<div class="modal fade" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cambiar su clave</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@newUser" OnValidSubmit="@HandleValidSubmi">
+                    <DataAnnotationsValidator />
+                    <InputText id="name" type="email" placeholder="Correo electronico" class="form-control mb-2" @bind-Value="newUser.Correo" />
+                    <ValidationMessage For=@(() => newUser.Correo) />
+                    <InputText id="name" type="password" placeholder="Contraseña" class="form-control mb-2" @bind-Value="newUser.Contraseña" />
+                    <ValidationMessage For=@(() => newUser.Contraseña) />
+                    <label>Ingrese nu nueva contraseña</label>
+                    <InputText id="name" type="password" placeholder="Nueva contraseña" class="form-control mb-2" @bind-Value="newUser.New_Contraseña" />
+                    <ValidationMessage For=@(() => newUser.New_Contraseña) />
+                    <InputText id="name" type="password" placeholder="Confirme su contraseña" class="form-control mb-2" @bind-Value="confirm_pasword" />
+                    <label class="text-danger">@message</label>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        @if (newUser.New_Contraseña == confirm_pasword)
+                         {
+                             message = "";
+                            <button type="submit" class="btn btn-primary">Cambiar la contraseña</button>
+                        }
+                        else
+                        {
+                            <button type="submit" disabled class="btn btn-primary">Las contraseñas no son iguales</button>
+                        }
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
     public dynamic StorageData { get; set; }
-    
+    public dynamic Editable { get; set; }
+    EditarUsuario newUser = new EditarUsuario();
+    string confirm_pasword;
+    string message;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -82,5 +129,38 @@
                 throw;
             }
         }
+    }
+    async Task HandleValidSubmi()
+    {
+        try
+        {
+            string jsonString = JsonConvert.SerializeObject(newUser);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Actualizar_Clave_Usuario/" + newUser.New_Contraseña);
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                newUser = new EditarUsuario(); 
+                Mensajes();
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    private async Task Mensajes()
+    {
+        if (Editable.ok == true)
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Se cambio la contraseña!");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+        }
+
     }
 }

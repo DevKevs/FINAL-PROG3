@@ -50,9 +50,9 @@
                             <td>@prov.Total $RD</td>
                             <td style="width:100px;">@prov.Direccion</td>
                             <td style="width:70px;">@prov.Estado</td>
-                            <td>
+                            <td class="p-0 ml-1">
                                 <button title="Editar" @onclick="@(async()=> await data(prov))" class="btn btn-success mb-2" data-toggle="modal" data-target="#exampleModal2"><i class="fas fa-edit"></i></button>
-                                <button title="ver producto" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#exampleModal3" class="btn btn-warning mb-2"><i class="fas fa-map-marked"></i></button>
+                                <button title="ver producto" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#exampleModal4" class="btn btn-warning mb-2"><i class="fas fa-map-marked"></i></button>
                                 <button title="ver Detalle" @onclick="@(async()=> await data(prov))" data-toggle="modal" data-target="#exampleModal3" class="btn btn-info mb-2"><i class="fas fa-eye"></i></button>
                             </td>
                         </tr>
@@ -60,6 +60,48 @@
                 }
             </tbody>
         </table>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles de productos pagos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Productos pagados por @_actualizar.NombreCliente</h4>
+                @if (Productos_pagos != null && Productos_pagos.ok == true)
+                {
+
+                    foreach (var i in Productos_pagos.data)
+                    {
+
+                        <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                            <div class="d-flex flex-row">
+                                <img class="rounded img-fluid" src="@i.Foto" width="50" height="50">
+                                <div class="ml-2"><span class="font-weight-bold d-block">@i.Nombre_producto</span><span class="spec">@i.Descripcion</span></div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center"><span class="d-block">@i.Cantidad</span><span class="d-block ml-5 font-weight-bold">$@i.Suma_total</span></div>
+                        </div>
+
+                    }
+                }
+                @if (Productos_pagos == null)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden"></span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -104,7 +146,7 @@
             </div>
             <div class="modal-body">
                 <label for="Estado">Actualizar el pedido de @_actualizar.NombreCliente</label>
-                <EditForm Model="@_actualizar">
+                <EditForm Model="@_actualizar" OnValidSubmit="@UpdateEstate">
                     <DataAnnotationsValidator/>
                     <InputSelect name="Estado" id="Drop" @bind-Value="@_actualizar.Estado" class="form-control">
                         <option value="" selected disabled>Seleccione el estado</option>
@@ -123,7 +165,7 @@
     </div>
 </div>
 <!-- Modal ver 1 pedido-->
-<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -148,13 +190,31 @@
 @code {
     public dynamic Datos { get; set; }
     public dynamic Editable { get; set; }
+    public dynamic Productos_pagos { get; set; }
     string jsonString;
     Api consume = new Api();
     Pago pedidos = new Pago();
     public string Buscar { get; set; }
     Actualizar _actualizar = new Actualizar();
-    
+
     protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Seleccionar_Pedidos");
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Datos = JsonConvert.DeserializeObject(data);
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
+    }
+    protected async Task Relolad()
     {
         try
         {
@@ -176,13 +236,14 @@
         await Task.Delay(10);
         if (select != null)
         {
-            pedidos.IdUsuario = select.IdUsuario;
+            pedidos.IdUsuario = select.IdUsuarios;
             pedidos.Estado = select.Estado;
             pedidos.Longitud = select.Longitud;
             pedidos.Latitud = select.Latitud;
-            _actualizar.IdPedido = select.IdOrden;
+            _actualizar.IdOrden = select.IdOrden;
             _actualizar.Estado = select.Estado;
             _actualizar.NombreCliente = $"{select.Nombre} {select.Apellido}";
+            await ProductosPagados();
         }
         return null;
     }
@@ -201,15 +262,61 @@
 
     class Actualizar
     {
-        public string IdPedido { get; set; }
-        
+        public string IdOrden { get; set; }
+
         [Required(ErrorMessage = "El estado es requerido")]
         public string Estado { get; set; }
-        
+
         public string NombreCliente { get; set; }
-        
-        
-        
-        
+    }
+    async Task UpdateEstate()
+    {
+        try
+        {
+
+            string jsonString = JsonConvert.SerializeObject(_actualizar);
+            Uri url = new Uri("https://super-mini-market.herokuapp.com/api/Actualizar_Pedidos");
+            WebClient client = new WebClient();
+            var data = await client.UploadStringTaskAsync(url, jsonString);
+            Editable = JsonConvert.DeserializeObject(data);
+            if (Editable != null)
+            {
+                await Relolad();
+                Mensajes();
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    private async Task Mensajes()
+    {
+        if (Editable.ok == true)
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "success", "¡Exito!", "Tracking actualizado!");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("Confirmar", "error", "Vaya!", "Ocurrio un error...");
+        }
+
+    }
+    async Task ProductosPagados()
+    {
+        try
+        {
+            string MyUrl = "https://super-mini-market.herokuapp.com/api/Detalles_Carrito_Producto_Pagado/" + pedidos.IdUsuario;
+            Uri url = new Uri(MyUrl);
+            WebClient client = new WebClient();
+            var data = await client.DownloadStringTaskAsync(url);
+            Productos_pagos = JsonConvert.DeserializeObject(data);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 }
