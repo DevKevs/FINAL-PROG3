@@ -60,19 +60,17 @@
                 </div>
             </div>
             <div class="col p-0">
-                <div class="card mt-1">
+                <div class="card mt-5">
                     <div class="card-header" style="background-color: #fff">
-                        <h4>Disponible</h4>
+                        <h4>Gananacias totales</h4>
                     </div>
                     <div class="card-body">
-                        disponible
+                        <h3 class="text-success">RD$ @ganancias .00 </h3>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 }
 @if (Datos == null)
 {
@@ -162,6 +160,7 @@
     public dynamic Pedidos { get; set; }
     public dynamic Editable { get; set; }
     public dynamic Productos_pagos { get; set; }
+    public int ganancias { get; set; }
     string jsonString;
     Pago pedidos = new Pago();
     Api consume = new Api();
@@ -226,7 +225,10 @@
             WebClient client = new WebClient();
             var data = await client.DownloadStringTaskAsync(url);
             Pedidos = JsonConvert.DeserializeObject(data);
-
+            foreach (var i in Pedidos.data)
+            {
+                ganancias += Convert.ToInt32(i.Total);
+            }
         }
         catch (Exception)
         {

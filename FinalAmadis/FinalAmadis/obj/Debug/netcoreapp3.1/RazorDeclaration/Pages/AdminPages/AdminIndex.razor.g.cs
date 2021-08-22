@@ -13,182 +13,182 @@ namespace FinalAmadis.Pages.AdminPages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 1 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 2 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 3 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 4 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 5 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 6 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 7 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 8 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using FinalAmadis;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 9 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using FinalAmadis.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 10 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using Radzen;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 11 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using Radzen.Blazor;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 12 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 12 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 13 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 13 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 14 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 14 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Axes;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 15 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 15 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Axes.Ticks;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 16 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 16 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Enums;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 17 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 17 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Handlers;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 18 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 18 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Common.Time;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 19 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 19 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Util;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 20 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\_Imports.razor"
+#line 20 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\_Imports.razor"
 using ChartJs.Blazor.Interop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
+#line 2 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
 using ChartJs.Blazor.PieChart;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
+#line 3 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
 using FinalAmadis.Data;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
+#line 4 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
 using System.Net;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
+#line 5 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
 using Newtonsoft.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
+#line 6 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
 using Microsoft.Extensions.Logging;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
+#line 7 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
 using System.ComponentModel.DataAnnotations;
 
 #line default
@@ -204,13 +204,14 @@ using System.ComponentModel.DataAnnotations;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 159 "C:\Users\Huascar\Desktop\FINAL-PROG3\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
+#line 157 "C:\Users\Jairo Melo\source\repos\FINALDELOFINALE\FinalAmadis\FinalAmadis\Pages\AdminPages\AdminIndex.razor"
       
 
     public dynamic Datos { get; set; }
     public dynamic Pedidos { get; set; }
     public dynamic Editable { get; set; }
     public dynamic Productos_pagos { get; set; }
+    public int ganancias { get; set; }
     string jsonString;
     Pago pedidos = new Pago();
     Api consume = new Api();
@@ -275,7 +276,10 @@ using System.ComponentModel.DataAnnotations;
             WebClient client = new WebClient();
             var data = await client.DownloadStringTaskAsync(url);
             Pedidos = JsonConvert.DeserializeObject(data);
-
+            foreach (var i in Pedidos.data)
+            {
+                ganancias += Convert.ToInt32(i.Total);
+            }
         }
         catch (Exception)
         {
