@@ -91,10 +91,10 @@
             {
         
          <div class="col p-2">
-    <div class="card p-2 d-flex justify-content-center" style="height: 375px; width: 280px">
-        <div class="card-body  ml-2 p-0"  style="height: 375px; width: 280px">
-          <div  style="height: 70%; width: 100%; background-image: url(@i.Foto_producto); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
-            <div style="height: 30%; width: 100%;">
+    <div class="card p-0 d-flex justify-content-center" style="height: 375px; width: 280px">
+        <div class="card-body  p-0"  style="height: 375px; width: 280px">
+          <div class="" style="height: 70%; width: 100%; background-image: url(@i.Foto_producto); background-size: 100% 100%; background-position: center; background-repeat: no-repeat;"></div>
+            <div  style="height: 30%; width: 100%;">
               <h5 class="ml-2">@i.Nombre_producto</h5>
             <div class="row mb-2">
                 <div class="col">
@@ -107,10 +107,11 @@
             </div>
         </div>
         <div style="background-color: transparent;" class="card-footer">
-            <button title="Añadir al carrito" data-toggle="modal" data-target="#AgregarProducto" class="btn btn-primary w-100" @onclick="@(async () => await data(i))"><i class="fas fa-shopping-cart"></i></button>
+            <button title="Añadir al carrito" data-toggle="modal" data-target="#AgregarProducto" class="btn btn-primary w-100" @onclick="@(async () => await data(i))" ><i class="fas fa-shopping-cart"></i></button>
         </div>
     </div>
 </div>
+        
             }
         } 
 
